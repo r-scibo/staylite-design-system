@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useUserRole, UserRole } from "@/hooks/useUserRole";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { AccessDeniedHostOnly } from "./AccessDeniedHostOnly";
 import { Button } from "./ui/button";
 import { ShieldAlert } from "lucide-react";
 
@@ -21,7 +22,12 @@ export const RoleRoute = ({ children, allowedRole }: RoleRouteProps) => {
     );
   }
 
-  // User is authenticated (via ProtectedRoute) but has wrong role - show access denied
+  // Special handling for Guest trying to access Host area
+  if (allowedRole === "Host" && role === "Guest") {
+    return <AccessDeniedHostOnly />;
+  }
+
+  // User is authenticated (via ProtectedRoute) but has wrong role - show generic access denied
   if (role !== allowedRole) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
