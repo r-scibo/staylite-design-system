@@ -1,12 +1,71 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Navigation } from "@/components/Navigation";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Hero Section */}
+        <div className="flex flex-col items-center justify-center py-20 text-center">
+          <h1 className="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
+            Find your perfect stay
+          </h1>
+          <p className="mb-8 max-w-2xl text-lg text-muted">
+            Discover unique places to stay around the world. Simple, beautiful, and easy to use.
+          </p>
+          
+          {/* Search Bar */}
+          <div className="w-full max-w-2xl">
+            <div className="flex gap-2 rounded-lg bg-surface p-2 shadow-medium">
+              <input
+                type="text"
+                placeholder="Where do you want to go?"
+                className="flex-1 rounded-md border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
+              />
+              <Button 
+                size="lg"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
+              >
+                <Search className="mr-2 h-4 w-4" />
+                Search
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="grid gap-6 py-16 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              title: "Verified Listings",
+              description: "Every property is verified for quality and safety.",
+            },
+            {
+              title: "Best Prices",
+              description: "Competitive rates with no hidden fees.",
+            },
+            {
+              title: "24/7 Support",
+              description: "We're here to help whenever you need us.",
+            },
+          ].map((feature, index) => (
+            <div
+              key={index}
+              className="rounded-lg border border-border bg-surface p-6 shadow-soft transition-shadow hover:shadow-medium"
+            >
+              <h3 className="mb-2 text-lg font-semibold text-foreground">
+                {feature.title}
+              </h3>
+              <p className="text-sm text-muted">
+                {feature.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </main>
     </div>
   );
 };
