@@ -28,7 +28,7 @@ export const RoleRoute = ({ children, allowedRole }: RoleRouteProps) => {
   }
 
   // User is authenticated (via ProtectedRoute) but has wrong role - show generic access denied
-  if (role !== allowedRole) {
+  if (role !== null && role !== allowedRole) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <div className="max-w-md text-center">
