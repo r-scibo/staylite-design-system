@@ -52,5 +52,15 @@ export const RoleRoute = ({ children, allowedRole }: RoleRouteProps) => {
     );
   }
 
-  return <>{children}</>;
+  // Only render children if role matches allowed role
+  if (role === allowedRole) {
+    return <>{children}</>;
+  }
+
+  // Fallback for edge cases (role is null but loading is false)
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <LoadingSpinner />
+    </div>
+  );
 };
