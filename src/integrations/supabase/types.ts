@@ -65,6 +65,13 @@ export type Database = {
             foreignKeyName: "availability_listing_id_fkey"
             columns: ["listing_id"]
             isOneToOne: false
+            referencedRelation: "listing_summary_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "availability_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
             referencedRelation: "listings"
             referencedColumns: ["id"]
           },
@@ -131,6 +138,13 @@ export type Database = {
             foreignKeyName: "bookings_listing_id_fkey"
             columns: ["listing_id"]
             isOneToOne: false
+            referencedRelation: "listing_summary_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
             referencedRelation: "listings"
             referencedColumns: ["id"]
           },
@@ -155,6 +169,13 @@ export type Database = {
             columns: ["amenity_id"]
             isOneToOne: false
             referencedRelation: "amenities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_amenities_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listing_summary_v"
             referencedColumns: ["id"]
           },
           {
@@ -189,6 +210,13 @@ export type Database = {
           url?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "listing_photos_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listing_summary_v"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "listing_photos_listing_id_fkey"
             columns: ["listing_id"]
@@ -346,6 +374,13 @@ export type Database = {
             foreignKeyName: "reviews_listing_id_fkey"
             columns: ["listing_id"]
             isOneToOne: false
+            referencedRelation: "listing_summary_v"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
             referencedRelation: "listings"
             referencedColumns: ["id"]
           },
@@ -374,15 +409,81 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      listing_summary_v: {
+        Row: {
+          base_price: number | null
+          city: string | null
+          cleaning_fee: number | null
+          country: string | null
+          first_photo_url: string | null
+          host_approval_required: boolean | null
+          host_id: string | null
+          id: string | null
+          max_guests: number | null
+          property_type: string | null
+          rating_avg: number | null
+          rating_count: number | null
+          slug: string | null
+          title: string | null
+        }
+        Insert: {
+          base_price?: number | null
+          city?: string | null
+          cleaning_fee?: number | null
+          country?: string | null
+          first_photo_url?: never
+          host_approval_required?: boolean | null
+          host_id?: string | null
+          id?: string | null
+          max_guests?: number | null
+          property_type?: string | null
+          rating_avg?: number | null
+          rating_count?: number | null
+          slug?: string | null
+          title?: string | null
+        }
+        Update: {
+          base_price?: number | null
+          city?: string | null
+          cleaning_fee?: number | null
+          country?: string | null
+          first_photo_url?: never
+          host_approval_required?: boolean | null
+          host_id?: string | null
+          id?: string | null
+          max_guests?: number | null
+          property_type?: string | null
+          rating_avg?: number | null
+          rating_count?: number | null
+          slug?: string | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listings_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      fn_compute_total: {
+        Args: { _cleaning: number; _nightly: number; _nights: number }
+        Returns: Database["public"]["CompositeTypes"]["pricing_breakdown"]
+      }
       fn_host_update_booking_status: {
         Args: {
           _booking_id: string
           _new_status: Database["public"]["Enums"]["booking_status"]
         }
         Returns: undefined
+      }
+      fn_range_available: {
+        Args: { _check_in: string; _check_out: string; _listing_id: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
@@ -400,7 +501,12 @@ export type Database = {
       user_role: "Guest" | "Host"
     }
     CompositeTypes: {
-      [_ in never]: never
+      pricing_breakdown: {
+        subtotal: number | null
+        service_fee: number | null
+        taxes: number | null
+        total: number | null
+      }
     }
   }
 }
