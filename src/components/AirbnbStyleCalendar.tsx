@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 import {
   format,
   startOfMonth,
@@ -118,7 +119,7 @@ export function AirbnbStyleCalendar({
 
   const getDateClassNames = (date: Date) => {
     const classes = [
-      "h-12 w-12 flex items-center justify-center rounded-full text-sm cursor-pointer transition-all",
+      "h-10 w-10 flex items-center justify-center rounded-full text-sm cursor-pointer transition-all",
     ];
 
     if (isDateDisabled(date)) {
@@ -150,7 +151,10 @@ export function AirbnbStyleCalendar({
   return (
     <div className="w-full">
       {/* Navigation */}
-      <div className="flex items-center justify-between mb-6">
+      <div className={cn(
+        "flex items-center justify-between mb-6",
+        numberOfMonths === 1 && "justify-center gap-12"
+      )}>
         <Button
           variant="ghost"
           size="icon"
@@ -159,7 +163,10 @@ export function AirbnbStyleCalendar({
         >
           <ChevronLeft className="h-5 w-5" />
         </Button>
-        <div className="flex gap-12">
+        <div className={cn(
+          "flex gap-12",
+          numberOfMonths === 1 && "justify-center"
+        )}>
           {months.map((month) => (
             <h3 key={month.toISOString()} className="text-lg font-semibold min-w-[140px] text-center">
               {format(month, "MMMM yyyy", { locale: it })}
@@ -177,7 +184,10 @@ export function AirbnbStyleCalendar({
       </div>
 
       {/* Calendar Grid */}
-      <div className="flex gap-8">
+      <div className={cn(
+        "flex gap-8",
+        numberOfMonths === 1 && "justify-center"
+      )}>
         {months.map((month) => {
           const daysInMonth = eachDayOfInterval({
             start: startOfMonth(month),
@@ -188,13 +198,13 @@ export function AirbnbStyleCalendar({
           const offset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
 
           return (
-            <div key={month.toISOString()} className="flex-1">
+            <div key={month.toISOString()} className="flex-1 min-w-[280px]">
               {/* Week days header */}
               <div className="grid grid-cols-7 gap-1 mb-2">
                 {weekDays.map((day, idx) => (
                   <div
                     key={`weekday-${idx}`}
-                    className="h-12 flex items-center justify-center text-xs font-medium text-muted-foreground"
+                    className="h-10 flex items-center justify-center text-xs font-medium text-muted-foreground"
                   >
                     {day}
                   </div>
@@ -205,7 +215,7 @@ export function AirbnbStyleCalendar({
               <div className="grid grid-cols-7 gap-1">
                 {/* Empty cells for offset */}
                 {Array.from({ length: offset }).map((_, i) => (
-                  <div key={`empty-${i}`} className="h-12" />
+                  <div key={`empty-${i}`} className="h-10" />
                 ))}
 
                 {/* Day cells */}

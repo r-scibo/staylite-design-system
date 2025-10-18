@@ -57,7 +57,7 @@ export function AvailabilityCalendar({
         )}
       </div>
       
-      <div className="border rounded-lg p-6 bg-background">
+      <div className="border rounded-lg p-4 bg-background">
         <AirbnbStyleCalendar
           mode="range"
           selected={dateRange}
@@ -69,7 +69,7 @@ export function AvailabilityCalendar({
             }
           }}
           disabled={isDateDisabled}
-          numberOfMonths={2}
+          numberOfMonths={1}
         />
       </div>
 
