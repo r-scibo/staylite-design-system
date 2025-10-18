@@ -12,7 +12,8 @@ import { Label } from "./ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Checkbox } from "./ui/checkbox";
 import { Upload, X } from "lucide-react";
-import { addDays, format } from "date-fns";
+import { addDays, format, isAfter, startOfDay } from "date-fns";
+import { Calendar } from "./ui/calendar";
 
 const listingSchema = z.object({
   title: z.string().min(5).max(100),
@@ -158,11 +159,6 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
 
       if (error) throw error;
 
-      // Generate 7-10 available dates
-      const startDate = new Date();
-      const numDates = Math.floor(Math.random() * 4) + 7; // 7-10 dates
-      const dates = Array.from({ length: numDates }, (_, i) => addDays(startDate, i + 1));
-      setAvailabilityDates(dates);
       setStep("availability");
     } catch (error: any) {
       toast.error(error.message);
@@ -359,22 +355,29 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
 
       {step === "availability" && (
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold">Initial Availability</h3>
-          <p className="text-sm text-muted">
-            We've pre-selected {availabilityDates.length} dates for your listing. You can manage availability later in the Calendar tab.
+          <h3 className="text-xl font-semibold">Select Available Dates</h3>
+          <p className="text-sm text-muted-foreground">
+            Click dates to mark them as available for booking. Select at least 7 dates to continue.
           </p>
           
           <div className="border rounded-lg p-4">
-            <p className="font-medium mb-2">Available Dates:</p>
-            <ul className="space-y-1">
-              {availabilityDates.map((date, i) => (
-                <li key={i} className="text-sm">{format(date, "dd MMM yyyy")}</li>
-              ))}
-            </ul>
+            <Calendar
+              mode="multiple"
+              selected={availabilityDates}
+              onSelect={(dates) => setAvailabilityDates(dates || [])}
+              disabled={(date) => isAfter(startOfDay(new Date()), startOfDay(date))}
+              className="pointer-events-auto"
+            />
           </div>
 
+          <p className="text-sm font-medium">
+            {availabilityDates.length} date(s) selected {availabilityDates.length < 7 && `(${7 - availabilityDates.length} more required)`}
+          </p>
+
           <div className="flex gap-2">
-            <Button onClick={saveAvailability}>Complete & Publish</Button>
+            <Button onClick={saveAvailability} disabled={availabilityDates.length < 7}>
+              Complete & Publish
+            </Button>
             <Button variant="outline" onClick={() => setStep("photos")}>Back</Button>
           </div>
         </div>
