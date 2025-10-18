@@ -3,12 +3,14 @@ import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
 import { UserMenu } from "./UserMenu";
 import { LoadingSpinner } from "./LoadingSpinner";
 
 export const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, loading, signOut } = useAuth();
+  const { role } = useUserRole();
   const navigate = useNavigate();
 
   return (
@@ -37,6 +39,14 @@ export const Navigation = () => {
             >
               Search
             </Link>
+            {role === "Host" && (
+              <Link 
+                to="/host" 
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                Host Dashboard
+              </Link>
+            )}
           </div>
 
           {/* Auth Section - Desktop */}
@@ -98,6 +108,15 @@ export const Navigation = () => {
             >
               Search
             </Link>
+            {role === "Host" && (
+              <Link
+                to="/host"
+                className="block px-3 py-2 text-base font-medium text-foreground hover:bg-secondary hover:text-primary rounded-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Host Dashboard
+              </Link>
+            )}
             {/* Auth Section - Mobile */}
             <div className="px-3 pt-2">
               {loading ? (
@@ -112,17 +131,32 @@ export const Navigation = () => {
                     </div>
                     <span className="text-sm font-medium truncate">{user.email}</span>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      navigate("/profile");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Profile
-                  </Button>
+                  {role === "Guest" && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        navigate("/profile");
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Profile
+                    </Button>
+                  )}
+                  {role === "Host" && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        navigate("/host");
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Host Dashboard
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
                     size="sm"

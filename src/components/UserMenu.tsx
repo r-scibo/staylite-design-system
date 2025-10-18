@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOut, User as UserIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useUserRole } from "@/hooks/useUserRole";
 import { toast } from "sonner";
 
 interface UserMenuProps {
@@ -21,6 +22,7 @@ interface UserMenuProps {
 
 export const UserMenu = ({ user, onSignOut }: UserMenuProps) => {
   const [profile, setProfile] = useState<{ name: string | null; avatar_url: string | null } | null>(null);
+  const { role } = useUserRole();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -82,13 +84,24 @@ export const UserMenu = ({ user, onSignOut }: UserMenuProps) => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => navigate("/profile")}
-          className="cursor-pointer"
-        >
-          <UserIcon className="mr-2 h-4 w-4" />
-          Profile
-        </DropdownMenuItem>
+        {role === "Guest" && (
+          <DropdownMenuItem
+            onClick={() => navigate("/profile")}
+            className="cursor-pointer"
+          >
+            <UserIcon className="mr-2 h-4 w-4" />
+            Profile
+          </DropdownMenuItem>
+        )}
+        {role === "Host" && (
+          <DropdownMenuItem
+            onClick={() => navigate("/host")}
+            className="cursor-pointer"
+          >
+            <UserIcon className="mr-2 h-4 w-4" />
+            Host Dashboard
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive">
           <LogOut className="mr-2 h-4 w-4" />
