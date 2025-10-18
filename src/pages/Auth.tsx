@@ -26,7 +26,6 @@ const Auth = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
@@ -34,16 +33,11 @@ const Auth = () => {
     const password = formData.get("password") as string;
     const name = formData.get("name") as string;
 
-    console.log("Form data:", { email, isLogin });
-
     try {
       if (isLogin) {
-        console.log("Attempting login...");
         // Validate login
         const validated = loginSchema.parse({ email, password });
         const { error } = await signIn(validated.email, validated.password);
-
-        console.log("Login response:", { error });
 
         if (error) {
           if (error.message.includes("Invalid login credentials")) {
@@ -53,16 +47,12 @@ const Auth = () => {
           }
         } else {
           toast.success("Welcome back!");
-          console.log("Navigating to:", nextPath || "/");
           navigate(nextPath || "/");
         }
       } else {
-        console.log("Attempting signup...");
         // Validate signup
         const validated = signupSchema.parse({ name, email, password });
         const { error } = await signUp(validated.email, validated.password, validated.name);
-
-        console.log("Signup response:", { error });
 
         if (error) {
           if (error.message.includes("User already registered")) {
@@ -72,12 +62,10 @@ const Auth = () => {
           }
         } else {
           toast.success("Account created successfully!");
-          console.log("Navigating to:", nextPath || "/");
           navigate(nextPath || "/");
         }
       }
     } catch (error) {
-      console.error("Auth error:", error);
       if (error instanceof z.ZodError) {
         const firstError = error.errors[0];
         toast.error(firstError.message);
