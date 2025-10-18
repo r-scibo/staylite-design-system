@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
 import { 
   MapPin, Users, Star, Wifi, Utensils, Wind, Flame, 
-  WashingMachine, Tv, Car, Home 
+  WashingMachine, Tv, Car, Home, ArrowLeft 
 } from "lucide-react";
 import { format, differenceInDays, parseISO } from "date-fns";
 import { PhotoCarousel } from "@/components/PhotoCarousel";
@@ -327,6 +327,17 @@ export default function ListingDetail() {
       <Navigation />
       
       <main className="mx-auto max-w-7xl px-4 py-8">
+        {/* Back Button */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate(-1)}
+          className="mb-4"
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Back to Search
+        </Button>
+
         {/* Header */}
         <div className="mb-6">
           <h1 className="mb-2 text-3xl font-bold text-foreground">{listing.title}</h1>
