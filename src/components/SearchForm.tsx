@@ -103,10 +103,40 @@ export function SearchForm({
             />
           </PopoverContent>
         </Popover>
-        <div className="flex items-center gap-2 border rounded-md px-3">
-          <Users className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm">{guests}</span>
-        </div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="w-32 justify-start">
+              <Users className="mr-2 h-4 w-4" />
+              {guests} {guests === 1 ? "guest" : "guests"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-4" align="start">
+            <div className="flex items-center gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setGuests(Math.max(1, guests - 1))}
+                className="h-8 w-8 p-0"
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <div className="flex items-center gap-2 min-w-[60px] justify-center">
+                <Users className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm font-medium">{guests}</span>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => setGuests(Math.min(20, guests + 1))}
+                className="h-8 w-8 p-0"
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
         <Button type="submit">
           <Search className="h-4 w-4" />
         </Button>
