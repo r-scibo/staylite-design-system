@@ -14,6 +14,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Upload, X } from "lucide-react";
 import { addDays, format, isAfter, startOfDay } from "date-fns";
 import { AirbnbStyleCalendar } from "./AirbnbStyleCalendar";
+import { MapLocationPicker } from "./MapLocationPicker";
 
 const listingSchema = z.object({
   title: z.string().min(5).max(100),
@@ -35,13 +36,14 @@ interface CreateListingWizardProps {
 
 export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizardProps) => {
   const { user } = useAuth();
-  const [step, setStep] = useState<"details" | "amenities" | "photos" | "availability">("details");
+  const [step, setStep] = useState<"details" | "location" | "amenities" | "photos" | "availability">("details");
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [photos, setPhotos] = useState<File[]>([]);
   const [amenitiesList, setAmenitiesList] = useState<Array<{ id: string; name: string }>>([]);
   const [listingId, setListingId] = useState<string | null>(null);
   const [availabilityDates, setAvailabilityDates] = useState<Date[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [location, setLocation] = useState<{ lat: number; lng: number; address: string } | null>(null);
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<ListingFormData>({
     resolver: zodResolver(listingSchema),
@@ -102,7 +104,7 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
       if (error) throw error;
 
       setListingId(listing.id);
-      setStep("amenities");
+      setStep("location");
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -121,6 +123,29 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
         );
       }
       setStep("photos");
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  const saveLocation = async (selectedLocation: { lat: number; lng: number; address: string }) => {
+    if (!listingId) return;
+
+    try {
+      const { error } = await supabase
+        .from("listings")
+        .update({
+          address: selectedLocation.address,
+          lat: selectedLocation.lat,
+          lng: selectedLocation.lng,
+        })
+        .eq("id", listingId);
+
+      if (error) throw error;
+      
+      setLocation(selectedLocation);
+      toast.success("Location saved!");
+      setStep("amenities");
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -267,10 +292,27 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
           </div>
 
           <div className="flex gap-2">
-            <Button type="submit">Next: Amenities</Button>
+            <Button type="submit">Next: Select Location</Button>
             <Button type="button" variant="outline" onClick={onCancel}>Cancel</Button>
           </div>
         </form>
+      )}
+
+      {step === "location" && (
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold">Select Property Location</h3>
+          <p className="text-sm text-muted-foreground">
+            Click on the map to select the exact location of your property. You can also search for an address.
+          </p>
+          <MapLocationPicker 
+            onLocationSelect={saveLocation}
+            defaultCenter={[9.19, 45.464]}
+            defaultZoom={12}
+          />
+          <Button type="button" variant="outline" onClick={() => setStep("details")}>
+            Back
+          </Button>
+        </div>
       )}
 
       {step === "amenities" && (
@@ -296,7 +338,7 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
           </div>
           <div className="flex gap-2">
             <Button onClick={saveAmenities}>Next: Photos</Button>
-            <Button variant="outline" onClick={() => setStep("details")}>Back</Button>
+            <Button variant="outline" onClick={() => setStep("location")}>Back</Button>
           </div>
         </div>
       )}
