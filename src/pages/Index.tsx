@@ -1,8 +1,11 @@
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -33,6 +36,28 @@ const Index = () => {
                 Search
               </Button>
             </div>
+          </div>
+        </div>
+
+        {/* Host CTA */}
+        <div className="py-8">
+          <div className="rounded-lg border border-border bg-surface p-8 shadow-medium text-center">
+            <div className="mb-4 inline-flex rounded-full bg-accent/10 p-3">
+              <Home className="h-8 w-8 text-accent" />
+            </div>
+            <h2 className="mb-2 text-2xl font-bold text-foreground">
+              Share your space
+            </h2>
+            <p className="mb-6 text-muted max-w-md mx-auto">
+              Earn extra income and welcome travelers from around the world by hosting on StayLite.
+            </p>
+            <Button
+              onClick={() => navigate("/auth?next=/host")}
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              Host your place
+            </Button>
           </div>
         </div>
 

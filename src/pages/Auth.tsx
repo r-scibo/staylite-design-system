@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,7 +10,9 @@ import { z } from "zod";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const [searchParams] = useSearchParams();
+  const nextPath = searchParams.get("next");
+  const [isLogin, setIsLogin] = useState(nextPath === "/host" ? true : true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const { user, signUp, signIn } = useAuth();
@@ -18,9 +20,9 @@ const Auth = () => {
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate(nextPath || "/");
     }
-  }, [user, navigate]);
+  }, [user, navigate, nextPath]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,7 +47,7 @@ const Auth = () => {
           }
         } else {
           toast.success("Welcome back!");
-          navigate("/");
+          navigate(nextPath || "/");
         }
       } else {
         // Validate signup
@@ -60,7 +62,7 @@ const Auth = () => {
           }
         } else {
           toast.success("Account created successfully!");
-          navigate("/");
+          navigate(nextPath || "/");
         }
       }
     } catch (error) {
@@ -88,6 +90,14 @@ const Auth = () => {
               : "Sign up to start exploring StayLite"}
           </p>
         </div>
+
+        {nextPath === "/host" && (
+          <div className="mb-4 rounded-lg border border-accent/20 bg-accent/5 p-4">
+            <p className="text-sm text-foreground">
+              <strong>Demo Host account</strong> — Email: host@test.com, Password: Host!234
+            </p>
+          </div>
+        )}
 
         <div className="bg-surface rounded-lg border border-border p-6 shadow-medium">
           <form onSubmit={handleSubmit} className="space-y-4">

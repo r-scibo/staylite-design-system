@@ -53,25 +53,45 @@ export const Navigation = () => {
           <div className="hidden md:flex md:items-center md:gap-3">
             {loading ? (
               <LoadingSpinner size="sm" />
-            ) : user ? (
-              <UserMenu user={user} onSignOut={signOut} />
             ) : (
               <>
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  className="text-foreground hover:text-primary hover:bg-secondary"
-                  onClick={() => navigate("/auth")}
-                >
-                  Login
-                </Button>
-                <Button 
-                  size="sm"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
-                  onClick={() => navigate("/auth")}
-                >
-                  Sign up
-                </Button>
+                {user && role !== "Host" && (
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => navigate("/auth?next=/host")}
+                  >
+                    Host your place
+                  </Button>
+                )}
+                {user ? (
+                  <UserMenu user={user} onSignOut={signOut} />
+                ) : (
+                  <>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => navigate("/auth?next=/host")}
+                    >
+                      Host your place
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      className="text-foreground hover:text-primary hover:bg-secondary"
+                      onClick={() => navigate("/auth")}
+                    >
+                      Login
+                    </Button>
+                    <Button 
+                      size="sm"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
+                      onClick={() => navigate("/auth")}
+                    >
+                      Sign up
+                    </Button>
+                  </>
+                )}
               </>
             )}
           </div>
@@ -131,6 +151,19 @@ export const Navigation = () => {
                     </div>
                     <span className="text-sm font-medium truncate">{user.email}</span>
                   </div>
+                  {role !== "Host" && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => {
+                        navigate("/auth?next=/host");
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Host your place
+                    </Button>
+                  )}
                   {role === "Guest" && (
                     <Button
                       variant="ghost"
@@ -170,28 +203,41 @@ export const Navigation = () => {
                   </Button>
                 </div>
               ) : (
-                <div className="flex gap-3">
+                <div className="space-y-2">
                   <Button 
-                    variant="ghost" 
+                    variant="outline" 
                     size="sm" 
-                    className="flex-1 text-foreground hover:text-primary hover:bg-secondary"
+                    className="w-full"
                     onClick={() => {
-                      navigate("/auth");
+                      navigate("/auth?next=/host");
                       setMobileMenuOpen(false);
                     }}
                   >
-                    Login
+                    Host your place
                   </Button>
-                  <Button 
-                    size="sm" 
-                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
-                    onClick={() => {
-                      navigate("/auth");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    Sign up
-                  </Button>
+                  <div className="flex gap-3">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="flex-1 text-foreground hover:text-primary hover:bg-secondary"
+                      onClick={() => {
+                        navigate("/auth");
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Login
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                      onClick={() => {
+                        navigate("/auth");
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      Sign up
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
