@@ -303,10 +303,13 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
         <div className="space-y-4">
           <h3 className="text-xl font-semibold">Select Property Location</h3>
           <p className="text-sm text-muted-foreground">
-            Click on the map to select the exact location of your property. You can also search for an address.
+            {watch("city")?.toLowerCase().includes("milan") || watch("city")?.toLowerCase().includes("milano")
+              ? "Click on the map to select the exact location of your property."
+              : "Please enter the location details manually."}
           </p>
           <MapLocationPicker 
             onLocationSelect={saveLocation}
+            city={watch("city")}
             defaultCenter={[9.19, 45.464]}
             defaultZoom={12}
           />
