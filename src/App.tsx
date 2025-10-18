@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Search from "./pages/Search";
+import ListingDetail from "./pages/ListingDetail";
+import BookingConfirm from "./pages/BookingConfirm";
 import Profile from "./pages/Profile";
 import Host from "./pages/Host";
 import NotFound from "./pages/NotFound";
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/listing/:slug" element={<ListingDetail />} />
+          <Route path="/confirm/:bookingId" element={<BookingConfirm />} />
           <Route
             path="/profile"
             element={
