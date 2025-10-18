@@ -1,6 +1,7 @@
 import { Navigation } from "@/components/Navigation";
+import { SearchForm } from "@/components/SearchForm";
 import { Button } from "@/components/ui/button";
-import { Search, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
@@ -20,23 +21,8 @@ const Index = () => {
             Discover unique places to stay around the world. Simple, beautiful, and easy to use.
           </p>
           
-          {/* Search Bar */}
-          <div className="w-full max-w-2xl">
-            <div className="flex gap-2 rounded-lg bg-surface p-2 shadow-medium">
-              <input
-                type="text"
-                placeholder="Where do you want to go?"
-                className="flex-1 rounded-md border border-input bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-ring transition-shadow"
-              />
-              <Button 
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
-              >
-                <Search className="mr-2 h-4 w-4" />
-                Search
-              </Button>
-            </div>
-          </div>
+          {/* Search Form */}
+          <SearchForm />
         </div>
 
         {/* Host CTA */}
