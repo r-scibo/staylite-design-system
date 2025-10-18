@@ -73,12 +73,13 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
     if (!user) return;
 
     try {
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("id")
         .eq("auth_user_id", user.id)
         .single();
 
+      if (profileError) throw profileError;
       if (!profile) throw new Error("Profile not found");
 
       const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
