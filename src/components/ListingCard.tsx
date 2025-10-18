@@ -35,15 +35,18 @@ export function ListingCard({
   
   return (
     <Link to={listingUrl}>
-      <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
-        <div className="aspect-[4/3] overflow-hidden bg-muted">
+      <Card className="overflow-hidden hover:shadow-cyan hover:-translate-y-1 transition-all duration-300 cursor-pointer group">
+        <div className="aspect-[4/3] overflow-hidden bg-muted relative">
           {photoUrl ? (
-            <img
-              src={photoUrl}
-              alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              loading="lazy"
-            />
+            <>
+              <img
+                src={photoUrl}
+                alt={title}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </>
           ) : (
             <div className="w-full h-full flex items-center justify-center text-muted-foreground">
               No image
@@ -68,10 +71,10 @@ export function ListingCard({
           </div>
           <div className="flex items-baseline justify-between">
             <div>
-              <span className="text-lg font-bold">€{Number(basePrice).toFixed(0)}</span>
+              <span className="text-xl font-bold text-primary">€{Number(basePrice).toFixed(0)}</span>
               <span className="text-sm text-muted-foreground"> / night</span>
             </div>
-            <Badge variant="secondary" className="text-xs capitalize">
+            <Badge className="text-xs capitalize bg-cyan text-cyan-foreground border-none">
               {propertyType}
             </Badge>
           </div>

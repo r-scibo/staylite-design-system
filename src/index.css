@@ -6,29 +6,47 @@
 
 @layer base {
   :root {
-    /* Base Colors */
-    --background: 210 40% 98%;        /* #F8FAFC */
-    --surface: 0 0% 100%;              /* #FFFFFF */
-    --foreground: 222 47% 11%;         /* #0F172A */
-    --muted: 215 16% 47%;              /* #64748B */
-    --accent: 185 82% 29%;             /* #0E7C86 */
-    --accent-foreground: 0 0% 100%;
+    /* Base Colors - Cold & Clean */
+    --background: 0 0% 100%;           /* Pure White #FFFFFF */
+    --surface: 220 25% 97%;            /* Icy Gray #F7F9FB */
+    --foreground: 220 40% 15%;         /* Deep Navy #1A2332 */
+    --muted: 220 15% 55%;              /* Cool Gray #7B8794 */
+    
+    /* Primary: Electric Blue */
+    --primary: 210 100% 50%;           /* #0080FF */
+    --primary-foreground: 0 0% 100%;
+    
+    /* Accent: Bright Cyan */
+    --accent: 190 100% 45%;            /* #00D4E6 */
+    --accent-foreground: 220 40% 15%;
+    
+    /* Secondary: Ice Blue */
+    --secondary: 210 40% 96%;          /* #F0F5FA */
+    --secondary-foreground: 220 40% 15%;
     
     /* Semantic Tokens */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 220 40% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 185 82% 29%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222 47% 11%;
-    --muted-foreground: 215 16% 47%;
-    --destructive: 0 84% 60%;
+    --popover-foreground: 220 40% 15%;
+    --muted-foreground: 220 15% 55%;
+    --destructive: 0 85% 55%;          /* Bold Red #E63946 */
     --destructive-foreground: 0 0% 100%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 185 82% 29%;
+    --border: 220 20% 90%;             /* #E2E8F0 */
+    --input: 220 20% 92%;              /* #E8EEF5 */
+    --ring: 210 100% 50%;              /* Electric Blue */
+    
+    /* Additional Accent Colors */
+    --electric: 210 100% 50%;          /* Electric Blue */
+    --electric-foreground: 0 0% 100%;
+    --cyan: 190 100% 45%;              /* Bright Cyan */
+    --cyan-foreground: 220 40% 15%;
+    --coral: 15 90% 60%;               /* Coral #FA6B5A */
+    --coral-foreground: 0 0% 100%;
+    --purple: 270 70% 60%;             /* Vibrant Purple */
+    --purple-foreground: 0 0% 100%;
+    --mint: 160 75% 45%;               /* Mint Green */
+    --mint-foreground: 0 0% 100%;
     
     /* Radius Scale */
     --radius-sm: 8px;
@@ -36,9 +54,16 @@
     --radius-lg: 20px;
     --radius: var(--radius-md);
     
-    /* Shadows */
-    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    /* Enhanced Shadows with Cold Tones */
+    --shadow-soft: 0 1px 3px 0 rgb(34 80 140 / 0.08), 0 1px 2px -1px rgb(34 80 140 / 0.04);
+    --shadow-medium: 0 4px 12px -2px rgb(34 80 140 / 0.12), 0 2px 8px -2px rgb(34 80 140 / 0.08);
+    --shadow-large: 0 12px 32px -8px rgb(34 80 140 / 0.18), 0 6px 20px -6px rgb(34 80 140 / 0.12);
+    --shadow-electric: 0 8px 30px rgb(0 128 255 / 0.15);
+    --shadow-cyan: 0 8px 30px rgb(0 212 230 / 0.15);
+    
+    /* Gradient Definitions */
+    --gradient-primary: linear-gradient(135deg, hsl(210, 100%, 50%) 0%, hsl(190, 100%, 45%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(190, 100%, 45%) 0%, hsl(270, 70%, 60%) 100%);
     
     /* Transitions */
     --transition-base: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -69,6 +94,39 @@
   
   .shadow-medium {
     box-shadow: var(--shadow-medium);
+  }
+  
+  .shadow-large {
+    box-shadow: var(--shadow-large);
+  }
+  
+  .shadow-electric {
+    box-shadow: var(--shadow-electric);
+  }
+  
+  .shadow-cyan {
+    box-shadow: var(--shadow-cyan);
+  }
+  
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+  
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   
   .scrollbar-hide {

@@ -63,7 +63,7 @@ export function SearchForm({
 
   if (compact) {
     return (
-      <form onSubmit={handleSubmit} className="flex flex-wrap items-stretch gap-0 w-full max-w-6xl bg-surface rounded-full shadow-lg border border-border">
+      <form onSubmit={handleSubmit} className="flex flex-wrap items-stretch gap-0 w-full max-w-6xl bg-card rounded-full shadow-large border-2 border-cyan/20 hover:border-cyan/40 transition-colors">
         {/* Location */}
         <div className="relative flex-1 min-w-[200px] px-6 py-3">
           <label className="block text-xs font-semibold text-foreground mb-1">Where</label>
@@ -97,7 +97,7 @@ export function SearchForm({
           )}
         </div>
 
-        <div className="border-l border-border/30 my-3" />
+        <div className="border-l border-cyan/30 my-3" />
 
         {/* Dates */}
         <Popover>
@@ -128,7 +128,7 @@ export function SearchForm({
           </PopoverContent>
         </Popover>
 
-        <div className="border-l border-border/30 my-3" />
+        <div className="border-l border-cyan/30 my-3" />
 
         {/* Guests */}
         <Popover>
@@ -170,7 +170,7 @@ export function SearchForm({
 
         {/* Search Button */}
         <div className="flex items-center pr-2 py-2">
-          <Button type="submit" size="icon" className="h-12 w-12 rounded-full shrink-0 bg-accent hover:bg-accent/90">
+          <Button type="submit" size="icon" className="h-12 w-12 rounded-full shrink-0 hover:scale-110">
             <Search className="h-5 w-5" />
           </Button>
         </div>

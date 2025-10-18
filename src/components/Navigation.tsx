@@ -17,13 +17,13 @@ export const Navigation = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-border">
+    <nav className="sticky top-0 z-50 glass border-b border-border/50 shadow-soft">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link 
             to="/" 
-            className="text-xl font-semibold text-foreground hover:text-primary transition-colors"
+            className="text-xl font-semibold text-gradient-primary hover:opacity-80 transition-opacity"
           >
             StayLite
           </Link>
@@ -57,7 +57,7 @@ export const Navigation = () => {
               >
                 Host Dashboard
                 {pendingCount > 0 && (
-                  <Badge variant="default" className="h-5 min-w-5 flex items-center justify-center text-xs">
+                  <Badge className="h-5 min-w-5 flex items-center justify-center text-xs bg-coral text-coral-foreground border-none">
                     {pendingCount}
                   </Badge>
                 )}
@@ -73,7 +73,7 @@ export const Navigation = () => {
               <>
                 {user && role !== "Host" && (
                   <Button 
-                    variant="outline" 
+                    variant="coral" 
                     size="sm"
                     onClick={() => navigate("/auth?next=/host")}
                   >
@@ -85,7 +85,7 @@ export const Navigation = () => {
                 ) : (
                   <>
                     <Button 
-                      variant="outline" 
+                      variant="coral" 
                       size="sm"
                       onClick={() => navigate("/auth?next=/host")}
                     >
@@ -101,7 +101,6 @@ export const Navigation = () => {
                     </Button>
                     <Button 
                       size="sm"
-                      className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
                       onClick={() => navigate("/auth")}
                     >
                       Sign up
@@ -161,7 +160,7 @@ export const Navigation = () => {
               >
                 <span>Host Dashboard</span>
                 {pendingCount > 0 && (
-                  <Badge variant="default" className="h-5 min-w-5 flex items-center justify-center text-xs">
+                  <Badge className="h-5 min-w-5 flex items-center justify-center text-xs bg-coral text-coral-foreground border-none">
                     {pendingCount}
                   </Badge>
                 )}
@@ -183,7 +182,7 @@ export const Navigation = () => {
                   </div>
                   {role !== "Host" && (
                     <Button
-                      variant="outline"
+                      variant="coral"
                       size="sm"
                       className="w-full justify-start"
                       onClick={() => {
@@ -235,7 +234,7 @@ export const Navigation = () => {
               ) : (
                 <div className="space-y-2">
                   <Button 
-                    variant="outline" 
+                    variant="coral" 
                     size="sm" 
                     className="w-full"
                     onClick={() => {
@@ -259,7 +258,7 @@ export const Navigation = () => {
                     </Button>
                     <Button 
                       size="sm" 
-                      className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                      className="flex-1"
                       onClick={() => {
                         navigate("/auth");
                         setMobileMenuOpen(false);
