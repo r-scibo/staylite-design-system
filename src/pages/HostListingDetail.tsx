@@ -49,7 +49,7 @@ interface Booking {
   created_at: string;
   profiles: {
     name: string | null;
-  };
+  } | null;
 }
 
 export default function HostListingDetail() {
@@ -362,7 +362,7 @@ export default function HostListingDetail() {
                 <CardContent className="pt-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <div className="font-semibold text-lg">{booking.profiles.name || "Guest"}</div>
+                      <div className="font-semibold text-lg">{booking.profiles?.name || "Guest"}</div>
                       <div className="text-sm text-muted-foreground">
                         Requested {format(new Date(booking.created_at), "dd MMM yyyy")}
                       </div>
@@ -424,7 +424,7 @@ export default function HostListingDetail() {
                   .map((booking) => (
                     <div key={booking.id} className="flex justify-between items-center py-2 border-b last:border-0">
                       <div className="flex-1">
-                        <div className="font-medium">{booking.profiles.name || "Guest"}</div>
+                        <div className="font-medium">{booking.profiles?.name || "Guest"}</div>
                         <div className="text-sm text-muted-foreground">
                           {format(new Date(booking.check_in), "dd MMM")} - {format(new Date(booking.check_out), "dd MMM yyyy")}
                         </div>
