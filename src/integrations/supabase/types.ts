@@ -377,6 +377,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      fn_host_update_booking_status: {
+        Args: {
+          _booking_id: string
+          _new_status: Database["public"]["Enums"]["booking_status"]
+        }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
