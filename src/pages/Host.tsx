@@ -8,6 +8,7 @@ import { HostListingsTab } from "@/components/HostListingsTab";
 import { HostCalendarTab } from "@/components/HostCalendarTab";
 import { PendingBookingRequests } from "@/components/PendingBookingRequests";
 import { BookingActivityLog } from "@/components/BookingActivityLog";
+import { CurrentReservations } from "@/components/CurrentReservations";
 import { Info } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -100,6 +101,11 @@ const Host = () => {
         {/* Pending Requests Section */}
         <div className="mb-6">
           <PendingBookingRequests />
+        </div>
+
+        {/* Current & Upcoming Reservations */}
+        <div className="mb-6">
+          <CurrentReservations />
         </div>
         
         <Tabs defaultValue="listings" className="space-y-6">
