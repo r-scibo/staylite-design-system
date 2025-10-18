@@ -44,6 +44,7 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
   const [availabilityDates, setAvailabilityDates] = useState<Date[]>([]);
   const [uploading, setUploading] = useState(false);
   const [location, setLocation] = useState<{ lat: number; lng: number; address: string } | null>(null);
+  const [listingCity, setListingCity] = useState<string>("");
 
   const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<ListingFormData>({
     resolver: zodResolver(listingSchema),
@@ -105,6 +106,7 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
       if (error) throw error;
 
       setListingId(listing.id);
+      setListingCity(data.city);
       setStep("location");
     } catch (error: any) {
       toast.error(error.message);
@@ -303,13 +305,13 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
         <div className="space-y-4">
           <h3 className="text-xl font-semibold">Select Property Location</h3>
           <p className="text-sm text-muted-foreground">
-            {watch("city")?.toLowerCase().includes("milan") || watch("city")?.toLowerCase().includes("milano")
+            {listingCity?.toLowerCase().includes("milan") || listingCity?.toLowerCase().includes("milano")
               ? "Click on the map to select the exact location of your property."
               : "Please enter the location details manually."}
           </p>
           <MapLocationPicker 
             onLocationSelect={saveLocation}
-            city={watch("city")}
+            city={listingCity}
             defaultCenter={[9.19, 45.464]}
             defaultZoom={12}
           />
