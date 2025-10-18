@@ -1,5 +1,6 @@
 import { Navigation } from "@/components/Navigation";
 import { SearchForm } from "@/components/SearchForm";
+import { DestinationShowcase } from "@/components/DestinationShowcase";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +24,11 @@ const Index = () => {
           
           {/* Search Form */}
           <SearchForm />
+        </div>
+
+        {/* Destination Showcase */}
+        <div className="py-12">
+          <DestinationShowcase />
         </div>
 
         {/* Host CTA */}
