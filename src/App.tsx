@@ -11,6 +11,7 @@ import BookingReview from "./pages/BookingReview";
 import BookingConfirm from "./pages/BookingConfirm";
 import Profile from "./pages/Profile";
 import Host from "./pages/Host";
+import HostListingDetail from "./pages/HostListingDetail";
 import NotFound from "./pages/NotFound";
 import CreateTestData from "./pages/CreateTestData";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -47,6 +48,16 @@ const App = () => (
               <ProtectedRoute>
                 <RoleRoute allowedRole="Host">
                   <Host />
+                </RoleRoute>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/host/listing/:id"
+            element={
+              <ProtectedRoute>
+                <RoleRoute allowedRole="Host">
+                  <HostListingDetail />
                 </RoleRoute>
               </ProtectedRoute>
             }

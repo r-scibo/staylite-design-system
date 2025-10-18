@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Plus, Edit, Trash2 } from "lucide-react";
@@ -19,6 +20,7 @@ interface Listing {
 
 export const HostListingsTab = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [showWizard, setShowWizard] = useState(false);
@@ -129,7 +131,11 @@ export const HostListingsTab = () => {
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <Button size="icon" variant="outline">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => navigate(`/host/listing/${listing.id}`)}
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button
