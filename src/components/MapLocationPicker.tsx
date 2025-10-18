@@ -80,7 +80,7 @@ export const MapLocationPicker = ({
     }
 
     // Add new marker
-    marker.current = new mapboxgl.Marker({ color: "#0080FF", draggable: false })
+    marker.current = new mapboxgl.Marker({ color: "hsl(210, 100%, 50%)", draggable: false })
       .setLngLat([lng, lat])
       .addTo(map.current!);
 
