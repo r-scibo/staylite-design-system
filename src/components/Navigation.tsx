@@ -73,8 +73,9 @@ export const Navigation = () => {
               <>
                 {user && role !== "Host" && (
                   <Button 
-                    variant="coral" 
+                    variant="outline" 
                     size="sm"
+                    className="bg-card border-2 border-primary/30 hover:border-primary hover:bg-card text-primary font-semibold hover:shadow-electric"
                     onClick={() => navigate("/auth?next=/host")}
                   >
                     Host your place
@@ -85,8 +86,9 @@ export const Navigation = () => {
                 ) : (
                   <>
                     <Button 
-                      variant="coral" 
+                      variant="outline" 
                       size="sm"
+                      className="bg-card border-2 border-primary/30 hover:border-primary hover:bg-card text-primary font-semibold hover:shadow-electric"
                       onClick={() => navigate("/auth?next=/host")}
                     >
                       Host your place
@@ -182,9 +184,9 @@ export const Navigation = () => {
                   </div>
                   {role !== "Host" && (
                     <Button
-                      variant="coral"
+                      variant="outline"
                       size="sm"
-                      className="w-full justify-start"
+                      className="w-full justify-start bg-card border-2 border-primary/30 hover:border-primary hover:bg-card text-primary font-semibold"
                       onClick={() => {
                         navigate("/auth?next=/host");
                         setMobileMenuOpen(false);
@@ -234,9 +236,9 @@ export const Navigation = () => {
               ) : (
                 <div className="space-y-2">
                   <Button 
-                    variant="coral" 
+                    variant="outline" 
                     size="sm" 
-                    className="w-full"
+                    className="w-full bg-card border-2 border-primary/30 hover:border-primary hover:bg-card text-primary font-semibold"
                     onClick={() => {
                       navigate("/auth?next=/host");
                       setMobileMenuOpen(false);
