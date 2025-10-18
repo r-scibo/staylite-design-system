@@ -69,8 +69,13 @@ const Search = () => {
         query = query.eq("property_type", propertyType);
       }
 
-      // Apply guests filter
-      query = query.gte("max_guests", minGuests);
+      // Apply guests filter - use main search guests param
+      query = query.gte("max_guests", guests);
+
+      // Apply sidebar minimum guests filter
+      if (minGuests > 1) {
+        query = query.gte("max_guests", minGuests);
+      }
 
       // Apply amenities filter if any selected
       if (amenities.length > 0) {
@@ -100,8 +105,28 @@ const Search = () => {
 
       if (error) throw error;
 
-      setListings(data || []);
-      setTotalCount(count || 0);
+      let filteredData = data || [];
+
+      // Filter by date availability if dates are provided
+      if (checkIn && checkOut && filteredData.length > 0) {
+        const availabilityChecks = await Promise.all(
+          filteredData.map(async (listing) => {
+            const { data: isAvailable } = await supabase.rpc("fn_range_available", {
+              _listing_id: listing.id,
+              _check_in: checkIn,
+              _check_out: checkOut,
+            });
+            return { listing, isAvailable };
+          })
+        );
+
+        filteredData = availabilityChecks
+          .filter((item) => item.isAvailable)
+          .map((item) => item.listing);
+      }
+
+      setListings(filteredData);
+      setTotalCount(filteredData.length);
     } catch (error) {
       console.error("Error fetching listings:", error);
       toast.error("Failed to load listings");
