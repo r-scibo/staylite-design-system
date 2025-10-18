@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
@@ -28,8 +28,13 @@ export function ListingCard({
   photoUrl,
   propertyType,
 }: ListingCardProps) {
+  const [searchParams] = useSearchParams();
+  
+  // Preserve search parameters in the listing link
+  const listingUrl = `/listing/${slug}?${searchParams.toString()}`;
+  
   return (
-    <Link to={`/listing/${slug}`}>
+    <Link to={listingUrl}>
       <Card className="overflow-hidden hover:shadow-lg transition-shadow cursor-pointer group">
         <div className="aspect-[4/3] overflow-hidden bg-muted">
           {photoUrl ? (

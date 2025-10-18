@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
@@ -78,6 +78,7 @@ export default function ListingDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
 
   const [listing, setListing] = useState<Listing | null>(null);
   const [photos, setPhotos] = useState<Photo[]>([]);
@@ -90,6 +91,36 @@ export default function ListingDetail() {
   const [checkOut, setCheckOut] = useState<Date | undefined>(undefined);
   const [guests, setGuests] = useState(2);
   const [isBooking, setIsBooking] = useState(false);
+
+  // Initialize dates and guests from URL params
+  useEffect(() => {
+    const checkInParam = searchParams.get("checkIn");
+    const checkOutParam = searchParams.get("checkOut");
+    const guestsParam = searchParams.get("guests");
+
+    if (checkInParam) {
+      try {
+        setCheckIn(parseISO(checkInParam));
+      } catch (e) {
+        console.error("Invalid checkIn date:", e);
+      }
+    }
+
+    if (checkOutParam) {
+      try {
+        setCheckOut(parseISO(checkOutParam));
+      } catch (e) {
+        console.error("Invalid checkOut date:", e);
+      }
+    }
+
+    if (guestsParam) {
+      const guestsNum = parseInt(guestsParam);
+      if (!isNaN(guestsNum) && guestsNum > 0) {
+        setGuests(guestsNum);
+      }
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     fetchListingData();
