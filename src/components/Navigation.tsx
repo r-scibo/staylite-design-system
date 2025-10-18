@@ -1,10 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { UserMenu } from "./UserMenu";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 export const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <nav className="sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-border">
@@ -34,21 +39,31 @@ export const Navigation = () => {
             </Link>
           </div>
 
-          {/* Auth Buttons - Desktop */}
+          {/* Auth Section - Desktop */}
           <div className="hidden md:flex md:items-center md:gap-3">
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="text-foreground hover:text-primary hover:bg-secondary"
-            >
-              Login
-            </Button>
-            <Button 
-              size="sm"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
-            >
-              Sign up
-            </Button>
+            {loading ? (
+              <LoadingSpinner size="sm" />
+            ) : user ? (
+              <UserMenu user={user} onSignOut={signOut} />
+            ) : (
+              <>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  className="text-foreground hover:text-primary hover:bg-secondary"
+                  onClick={() => navigate("/auth")}
+                >
+                  Login
+                </Button>
+                <Button 
+                  size="sm"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-soft"
+                  onClick={() => navigate("/auth")}
+                >
+                  Sign up
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -83,20 +98,68 @@ export const Navigation = () => {
             >
               Search
             </Link>
-            <div className="flex gap-3 px-3 pt-2">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="flex-1 text-foreground hover:text-primary hover:bg-secondary"
-              >
-                Login
-              </Button>
-              <Button 
-                size="sm" 
-                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                Sign up
-              </Button>
+            {/* Auth Section - Mobile */}
+            <div className="px-3 pt-2">
+              {loading ? (
+                <div className="flex justify-center py-2">
+                  <LoadingSpinner size="sm" />
+                </div>
+              ) : user ? (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2 px-3 py-2 bg-secondary rounded-md">
+                    <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-medium">
+                      {user.email?.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="text-sm font-medium truncate">{user.email}</span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      navigate("/profile");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Profile
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start text-destructive hover:text-destructive"
+                    onClick={() => {
+                      signOut();
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex gap-3">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="flex-1 text-foreground hover:text-primary hover:bg-secondary"
+                    onClick={() => {
+                      navigate("/auth");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Login
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+                    onClick={() => {
+                      navigate("/auth");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    Sign up
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         )}
