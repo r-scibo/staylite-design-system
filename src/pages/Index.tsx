@@ -13,21 +13,13 @@ const Index = () => {
       <Navigation />
       
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <div className="flex flex-col items-center justify-center py-20 text-center">
-          <h1 className="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-            Find your perfect stay
-          </h1>
-          <p className="mb-8 max-w-2xl text-lg text-muted">
-            Discover unique places to stay around the world. Simple, beautiful, and easy to use.
-          </p>
-          
-          {/* Search Form */}
-          <SearchForm />
+        {/* Search Section */}
+        <div className="flex items-center justify-center py-8">
+          <SearchForm compact />
         </div>
 
         {/* Destination Showcase */}
-        <div className="py-12">
+        <div className="py-8">
           <DestinationShowcase />
         </div>
 

@@ -63,51 +63,70 @@ export function SearchForm({
 
   if (compact) {
     return (
-      <form onSubmit={handleSubmit} className="flex flex-wrap gap-2">
-        <Input
-          placeholder="City"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-40"
-        />
+      <form onSubmit={handleSubmit} className="flex flex-wrap items-end gap-2 w-full max-w-6xl bg-surface rounded-full shadow-lg px-4 py-3">
+        <div className="relative flex-1 min-w-[180px]">
+          <Input
+            placeholder="Where?"
+            value={location}
+            onChange={(e) => {
+              setLocation(e.target.value);
+              setShowSuggestions(true);
+            }}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
+          {showSuggestions && filteredCities.length > 0 && (
+            <div className="absolute z-50 mt-1 w-full bg-popover border rounded-md shadow-lg max-h-60 overflow-auto">
+              {filteredCities.map((city) => (
+                <button
+                  key={city}
+                  type="button"
+                  onClick={() => {
+                    setLocation(city);
+                    setShowSuggestions(false);
+                  }}
+                  className="w-full text-left px-4 py-2 hover:bg-muted transition-colors text-sm"
+                >
+                  {city}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="border-l h-8 border-border/50" />
+
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="w-40 justify-start">
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {checkIn ? format(checkIn, "dd MMM") : "Check-in"}
+            <Button variant="ghost" className="flex-1 min-w-[160px] justify-start font-normal border-0 hover:bg-transparent">
+              {checkIn && checkOut
+                ? `${format(checkIn, "dd MMM")} - ${format(checkOut, "dd MMM")}`
+                : "Add dates"}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={checkIn}
-              onSelect={setCheckIn}
-              disabled={(date) => date < new Date()}
-              className="pointer-events-auto"
-            />
+            <div className="p-4">
+              <AirbnbStyleCalendar
+                mode="range"
+                selected={{ from: checkIn || new Date(), to: checkOut }}
+                onSelect={(range) => {
+                  if (range && typeof range === "object" && "from" in range) {
+                    setCheckIn(range.from);
+                    setCheckOut(range.to);
+                  }
+                }}
+                numberOfMonths={2}
+              />
+            </div>
           </PopoverContent>
         </Popover>
+
+        <div className="border-l h-8 border-border/50" />
+
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="w-40 justify-start">
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {checkOut ? format(checkOut, "dd MMM") : "Check-out"}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={checkOut}
-              onSelect={setCheckOut}
-              disabled={(date) => date < (checkIn || new Date())}
-              className="pointer-events-auto"
-            />
-          </PopoverContent>
-        </Popover>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="w-32 justify-start">
-              <Users className="mr-2 h-4 w-4" />
+            <Button variant="ghost" className="min-w-[120px] justify-start font-normal border-0 hover:bg-transparent">
               {guests} {guests === 1 ? "guest" : "guests"}
             </Button>
           </PopoverTrigger>
@@ -118,7 +137,7 @@ export function SearchForm({
                 variant="outline"
                 size="sm"
                 onClick={() => setGuests(Math.max(1, guests - 1))}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 rounded-full"
               >
                 <Minus className="h-4 w-4" />
               </Button>
@@ -131,15 +150,16 @@ export function SearchForm({
                 variant="outline"
                 size="sm"
                 onClick={() => setGuests(Math.min(20, guests + 1))}
-                className="h-8 w-8 p-0"
+                className="h-8 w-8 p-0 rounded-full"
               >
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
           </PopoverContent>
         </Popover>
-        <Button type="submit">
-          <Search className="h-4 w-4" />
+
+        <Button type="submit" size="icon" className="h-12 w-12 rounded-full shrink-0">
+          <Search className="h-5 w-5" />
         </Button>
       </form>
     );
