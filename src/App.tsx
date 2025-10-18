@@ -11,6 +11,7 @@ import BookingConfirm from "./pages/BookingConfirm";
 import Profile from "./pages/Profile";
 import Host from "./pages/Host";
 import NotFound from "./pages/NotFound";
+import CreateTestData from "./pages/CreateTestData";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { RoleRoute } from "./components/RoleRoute";
 
@@ -48,6 +49,7 @@ const App = () => (
               </ProtectedRoute>
             }
           />
+          <Route path="/create-test-data" element={<CreateTestData />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
