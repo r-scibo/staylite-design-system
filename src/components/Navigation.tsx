@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
+import { usePendingBookingsCount } from "@/hooks/usePendingBookingsCount";
 import { UserMenu } from "./UserMenu";
 import { LoadingSpinner } from "./LoadingSpinner";
 
@@ -11,6 +13,7 @@ export const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, loading, signOut } = useAuth();
   const { role } = useUserRole();
+  const pendingCount = usePendingBookingsCount();
   const navigate = useNavigate();
 
   return (
@@ -50,9 +53,14 @@ export const Navigation = () => {
             {role === "Host" && (
               <Link 
                 to="/host" 
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors flex items-center gap-2"
               >
                 Host Dashboard
+                {pendingCount > 0 && (
+                  <Badge variant="default" className="h-5 min-w-5 flex items-center justify-center text-xs">
+                    {pendingCount}
+                  </Badge>
+                )}
               </Link>
             )}
           </div>
@@ -148,10 +156,15 @@ export const Navigation = () => {
             {role === "Host" && (
               <Link
                 to="/host"
-                className="block px-3 py-2 text-base font-medium text-foreground hover:bg-secondary hover:text-primary rounded-md transition-colors"
+                className="block px-3 py-2 text-base font-medium text-foreground hover:bg-secondary hover:text-primary rounded-md transition-colors flex items-center justify-between"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Host Dashboard
+                <span>Host Dashboard</span>
+                {pendingCount > 0 && (
+                  <Badge variant="default" className="h-5 min-w-5 flex items-center justify-center text-xs">
+                    {pendingCount}
+                  </Badge>
+                )}
               </Link>
             )}
             {/* Auth Section - Mobile */}

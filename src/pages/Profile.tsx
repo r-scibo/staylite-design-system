@@ -60,6 +60,34 @@ const Profile = () => {
 
   useEffect(() => {
     fetchBookings();
+
+    // Set up realtime subscription for booking updates
+    const channel = supabase
+      .channel("guest-bookings")
+      .on(
+        "postgres_changes",
+        {
+          event: "UPDATE",
+          schema: "public",
+          table: "bookings",
+        },
+        (payload) => {
+          console.log("Booking updated:", payload);
+          fetchBookings();
+          
+          // Show notification when status changes
+          if (payload.new.status === "CONFIRMED") {
+            toast.success("Your booking has been approved by the host!");
+          } else if (payload.new.status === "DECLINED") {
+            toast.error("Your booking request was declined by the host.");
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [user]);
 
   const handleCancel = async (bookingId: string) => {

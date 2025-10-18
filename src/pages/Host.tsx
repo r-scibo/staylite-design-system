@@ -6,6 +6,7 @@ import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HostListingsTab } from "@/components/HostListingsTab";
 import { HostCalendarTab } from "@/components/HostCalendarTab";
+import { PendingBookingRequests } from "@/components/PendingBookingRequests";
 import { Info } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -90,6 +91,11 @@ const Host = () => {
         </Alert>
         
         <h1 className="text-4xl font-bold mb-6">Host Dashboard</h1>
+        
+        {/* Pending Requests Section */}
+        <div className="mb-6">
+          <PendingBookingRequests />
+        </div>
         
         <Tabs defaultValue="listings" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
