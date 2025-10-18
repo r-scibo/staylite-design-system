@@ -35,7 +35,7 @@ interface AvailabilityDate {
 
 export default function BookingReview() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   
   const [listing, setListing] = useState<Listing | null>(null);
@@ -50,6 +50,12 @@ export default function BookingReview() {
   const guests = parseInt(searchParams.get("guests") || "2");
 
   useEffect(() => {
+    // Wait for auth to load
+    if (authLoading) {
+      return;
+    }
+
+    // Check authentication after loading
     if (!user) {
       toast({
         title: "Authentication Required",
@@ -71,7 +77,7 @@ export default function BookingReview() {
     }
 
     fetchBookingData();
-  }, [listingId, user]);
+  }, [listingId, user, authLoading]);
 
   const fetchBookingData = async () => {
     if (!listingId) return;
@@ -209,7 +215,7 @@ export default function BookingReview() {
     }
   };
 
-  if (loading) {
+  if (loading || authLoading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
