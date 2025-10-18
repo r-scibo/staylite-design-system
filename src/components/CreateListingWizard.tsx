@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { Checkbox } from "./ui/checkbox";
 import { Upload, X } from "lucide-react";
 import { addDays, format, isAfter, startOfDay } from "date-fns";
-import { Calendar } from "./ui/calendar";
+import { AirbnbStyleCalendar } from "./AirbnbStyleCalendar";
 
 const listingSchema = z.object({
   title: z.string().min(5).max(100),
@@ -360,13 +360,13 @@ export const CreateListingWizard = ({ onComplete, onCancel }: CreateListingWizar
             Click dates to mark them as available for booking. Select at least 7 dates to continue.
           </p>
           
-          <div className="border rounded-lg p-4">
-            <Calendar
+          <div className="border rounded-lg p-6 bg-background">
+            <AirbnbStyleCalendar
               mode="multiple"
               selected={availabilityDates}
-              onSelect={(dates) => setAvailabilityDates(dates || [])}
+              onSelect={(dates) => setAvailabilityDates((dates as Date[]) || [])}
               disabled={(date) => isAfter(startOfDay(new Date()), startOfDay(date))}
-              className="pointer-events-auto"
+              numberOfMonths={2}
             />
           </div>
 

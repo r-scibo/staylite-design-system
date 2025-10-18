@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-import { format, parseISO, isBefore, startOfDay } from "date-fns";
+import { AirbnbStyleCalendar } from "./AirbnbStyleCalendar";
+import { format, isBefore, startOfDay } from "date-fns";
 
 interface AvailabilityDate {
   date: string;
@@ -24,7 +23,10 @@ export function AvailabilityCalendar({
   onCheckInChange,
   onCheckOutChange,
 }: AvailabilityCalendarProps) {
-  const [selectingCheckOut, setSelectingCheckOut] = useState(false);
+  const [dateRange, setDateRange] = useState<{ from: Date; to?: Date }>({
+    from: checkIn || new Date(),
+    to: checkOut,
+  });
 
   const isDateDisabled = (date: Date) => {
     const dateStr = format(date, "yyyy-MM-dd");
@@ -43,61 +45,42 @@ export function AvailabilityCalendar({
     return false;
   };
 
-  const handleDateSelect = (date: Date | undefined) => {
-    if (!date) return;
-
-    if (!selectingCheckOut) {
-      // Selecting check-in
-      onCheckInChange(date);
-      onCheckOutChange(undefined);
-      setSelectingCheckOut(true);
-    } else {
-      // Selecting check-out
-      if (checkIn && date > checkIn) {
-        onCheckOutChange(date);
-        setSelectingCheckOut(false);
-      } else {
-        // If selected date is before check-in, start over
-        onCheckInChange(date);
-        onCheckOutChange(undefined);
-      }
-    }
-  };
-
   return (
-    <div className="space-y-3">
-      <div className="text-sm text-muted">
-        {!checkIn && "Select check-in date"}
-        {checkIn && !checkOut && "Now select check-out date"}
-        {checkIn && checkOut && "Dates selected"}
+    <div className="space-y-4">
+      <div className="text-sm text-muted-foreground">
+        {!dateRange.from && "Select check-in date"}
+        {dateRange.from && !dateRange.to && "Now select check-out date"}
+        {dateRange.from && dateRange.to && (
+          <span className="font-semibold text-foreground">
+            {format(dateRange.from, "dd MMM")} → {format(dateRange.to, "dd MMM")}
+          </span>
+        )}
       </div>
       
-      <Calendar
-        mode="single"
-        selected={selectingCheckOut ? checkOut : checkIn}
-        onSelect={handleDateSelect}
-        disabled={isDateDisabled}
-        initialFocus
-        numberOfMonths={1}
-        className={cn("pointer-events-auto rounded-md border")}
-      />
-
-      {checkIn && checkOut && (
-        <div className="rounded-md bg-accent/10 p-3 text-sm">
-          <p className="font-semibold text-foreground">
-            {format(checkIn, "dd MMM")} → {format(checkOut, "dd MMM")}
-          </p>
-        </div>
-      )}
+      <div className="border rounded-lg p-6 bg-background">
+        <AirbnbStyleCalendar
+          mode="range"
+          selected={dateRange}
+          onSelect={(range) => {
+            if (range && typeof range === "object" && "from" in range) {
+              setDateRange(range);
+              onCheckInChange(range.from);
+              onCheckOutChange(range.to);
+            }
+          }}
+          disabled={isDateDisabled}
+          numberOfMonths={2}
+        />
+      </div>
 
       <div className="flex flex-wrap gap-3 text-xs">
         <div className="flex items-center gap-1">
           <div className="h-3 w-3 rounded-full bg-muted" />
-          <span className="text-muted">Unavailable</span>
+          <span className="text-muted-foreground">Unavailable</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="h-3 w-3 rounded-full bg-primary" />
-          <span className="text-muted">Available</span>
+          <div className="h-3 w-3 rounded-full bg-foreground" />
+          <span className="text-muted-foreground">Available</span>
         </div>
       </div>
     </div>

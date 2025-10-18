@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar as CalendarIcon, MessageSquare } from "lucide-react";
 import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay } from "date-fns";
-import { Calendar } from "@/components/ui/calendar";
+import { AirbnbStyleCalendar } from "@/components/AirbnbStyleCalendar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -288,21 +288,21 @@ export default function HostListingDetail() {
                 </div>
               </div>
 
-              <Calendar
+              <AirbnbStyleCalendar
                 mode="multiple"
                 selected={selectedDates}
-                onSelect={(dates) => setSelectedDates(dates || [])}
-                className="pointer-events-auto border rounded-lg p-4"
+                onSelect={(dates) => setSelectedDates((dates as Date[]) || [])}
                 modifiers={{
                   open: (date) => getDateStatus(date) === "OPEN",
                   blocked: (date) => getDateStatus(date) === "BLOCKED",
                   booked: (date) => getDateStatus(date) === "BOOKED",
                 }}
                 modifiersClassNames={{
-                  open: "bg-green-500/20 text-green-700",
-                  blocked: "bg-red-500/20 text-red-700 line-through",
-                  booked: "bg-blue-500/20 text-blue-700",
+                  open: "bg-green-500/20 text-green-700 hover:bg-green-500/30",
+                  blocked: "bg-red-500/20 text-red-700 line-through hover:bg-red-500/30",
+                  booked: "bg-blue-500/20 text-blue-700 hover:bg-blue-500/30",
                 }}
+                numberOfMonths={2}
               />
 
               {selectedDates.length > 0 && (

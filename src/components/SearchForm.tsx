@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { AirbnbStyleCalendar } from "./AirbnbStyleCalendar";
 import { format } from "date-fns";
 import { CalendarIcon, MapPin, Minus, Plus, Search, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -146,7 +147,7 @@ export function SearchForm({
 
   return (
     <form onSubmit={handleSubmit} className="w-full max-w-4xl">
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 bg-surface rounded-lg p-4 shadow-lg">
+      <div className="grid gap-4 md:grid-cols-2 bg-surface rounded-lg p-4 shadow-lg">
         {/* Location */}
         <div className="space-y-2 relative">
           <Label htmlFor="location">Location</Label>
@@ -184,60 +185,38 @@ export function SearchForm({
           </div>
         </div>
 
-        {/* Check-in */}
+        {/* Dates */}
         <div className="space-y-2">
-          <Label>Check-in</Label>
+          <Label>Dates</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
                 variant="outline"
                 className={cn(
                   "w-full justify-start text-left font-normal",
-                  !checkIn && "text-muted-foreground"
+                  (!checkIn || !checkOut) && "text-muted-foreground"
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {checkIn ? format(checkIn, "dd MMM yyyy") : "Select date"}
+                {checkIn && checkOut
+                  ? `${format(checkIn, "dd MMM")} - ${format(checkOut, "dd MMM")}`
+                  : "Select dates"}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={checkIn}
-                onSelect={setCheckIn}
-                disabled={(date) => date < new Date()}
-                initialFocus
-                className="pointer-events-auto"
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        {/* Check-out */}
-        <div className="space-y-2">
-          <Label>Check-out</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !checkOut && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {checkOut ? format(checkOut, "dd MMM yyyy") : "Select date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={checkOut}
-                onSelect={setCheckOut}
-                disabled={(date) => !checkIn || date <= checkIn}
-                initialFocus
-                className="pointer-events-auto"
-              />
+              <div className="p-4">
+                <AirbnbStyleCalendar
+                  mode="range"
+                  selected={{ from: checkIn || new Date(), to: checkOut }}
+                  onSelect={(range) => {
+                    if (range && typeof range === "object" && "from" in range) {
+                      setCheckIn(range.from);
+                      setCheckOut(range.to);
+                    }
+                  }}
+                  numberOfMonths={2}
+                />
+              </div>
             </PopoverContent>
           </Popover>
         </div>
@@ -271,9 +250,9 @@ export function SearchForm({
           </div>
         </div>
 
-        {/* Search Button - full width on mobile, auto on desktop */}
-        <div className="md:col-span-3 lg:col-span-4">
-          <Button type="submit" size="lg" className="w-full">
+        {/* Search Button */}
+        <div className="md:col-span-2">
+          <Button type="submit" size="lg" className="w-full mt-2">
             <Search className="mr-2 h-4 w-4" />
             Search Properties
           </Button>
