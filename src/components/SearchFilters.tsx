@@ -13,13 +13,11 @@ interface SearchFiltersProps {
   maxPrice: number;
   propertyType: string;
   amenities: string[];
-  minGuests: number;
   onFiltersChange: (filters: {
     minPrice: number;
     maxPrice: number;
     propertyType: string;
     amenities: string[];
-    minGuests: number;
   }) => void;
 }
 
@@ -36,7 +34,6 @@ export function SearchFilters({
   maxPrice,
   propertyType,
   amenities: selectedAmenities,
-  minGuests,
   onFiltersChange,
 }: SearchFiltersProps) {
   const [localMinPrice, setLocalMinPrice] = useState(minPrice);
@@ -71,7 +68,6 @@ export function SearchFilters({
       maxPrice: localMaxPrice,
       propertyType,
       amenities: newAmenities,
-      minGuests,
     });
   };
 
@@ -83,14 +79,12 @@ export function SearchFilters({
       maxPrice: 1000,
       propertyType: "all",
       amenities: [],
-      minGuests: 1,
     });
   };
 
   const activeFiltersCount = 
     (propertyType !== "all" ? 1 : 0) +
     (selectedAmenities.length > 0 ? 1 : 0) +
-    (minGuests > 1 ? 1 : 0) +
     (localMinPrice > 0 || localMaxPrice < 1000 ? 1 : 0);
 
   return (
@@ -126,7 +120,6 @@ export function SearchFilters({
                   maxPrice: values[1],
                   propertyType,
                   amenities: selectedAmenities,
-                  minGuests,
                 })
               }
               className="w-full"
@@ -149,7 +142,6 @@ export function SearchFilters({
                 maxPrice: localMaxPrice,
                 propertyType: value,
                 amenities: selectedAmenities,
-                minGuests,
               })
             }
           >
@@ -161,34 +153,6 @@ export function SearchFilters({
               {PROPERTY_TYPES.map((type) => (
                 <SelectItem key={type} value={type} className="capitalize">
                   {type}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Minimum Guests */}
-        <div className="space-y-2">
-          <Label>Minimum Guests</Label>
-          <Select
-            value={minGuests.toString()}
-            onValueChange={(value) =>
-              onFiltersChange({
-                minPrice: localMinPrice,
-                maxPrice: localMaxPrice,
-                propertyType,
-                amenities: selectedAmenities,
-                minGuests: parseInt(value),
-              })
-            }
-          >
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {[1, 2, 3, 4, 5, 6, 8, 10].map((num) => (
-                <SelectItem key={num} value={num.toString()}>
-                  {num} {num === 1 ? "guest" : "guests"}
                 </SelectItem>
               ))}
             </SelectContent>

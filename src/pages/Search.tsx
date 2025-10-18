@@ -41,7 +41,6 @@ const Search = () => {
   const propertyType = searchParams.get("propertyType") || "all";
   const amenitiesParam = searchParams.get("amenities") || "";
   const amenities = amenitiesParam ? amenitiesParam.split(",") : [];
-  const minGuests = parseInt(searchParams.get("minGuests") || "1");
 
   useEffect(() => {
     fetchListings();
@@ -71,11 +70,6 @@ const Search = () => {
 
       // Apply guests filter - use main search guests param
       query = query.gte("max_guests", guests);
-
-      // Apply sidebar minimum guests filter
-      if (minGuests > 1) {
-        query = query.gte("max_guests", minGuests);
-      }
 
       // Apply amenities filter if any selected
       if (amenities.length > 0) {
@@ -140,7 +134,6 @@ const Search = () => {
     maxPrice: number;
     propertyType: string;
     amenities: string[];
-    minGuests: number;
   }) => {
     const params = new URLSearchParams(searchParams);
     
@@ -152,7 +145,6 @@ const Search = () => {
     params.set("minPrice", filters.minPrice.toString());
     params.set("maxPrice", filters.maxPrice.toString());
     params.set("propertyType", filters.propertyType);
-    params.set("minGuests", filters.minGuests.toString());
     
     if (filters.amenities.length > 0) {
       params.set("amenities", filters.amenities.join(","));
@@ -199,7 +191,6 @@ const Search = () => {
               maxPrice={maxPrice}
               propertyType={propertyType}
               amenities={amenities}
-              minGuests={minGuests}
               onFiltersChange={handleFiltersChange}
             />
           </aside>
