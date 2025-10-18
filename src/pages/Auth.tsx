@@ -162,7 +162,7 @@ const Auth = () => {
             </Button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center space-y-3">
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
@@ -173,6 +173,17 @@ const Auth = () => {
                 ? "Don't have an account? Sign up"
                 : "Already have an account? Login"}
             </button>
+            
+            <div className="pt-3 border-t border-border">
+              <button
+                type="button"
+                onClick={() => navigate("/")}
+                className="text-sm text-muted hover:text-foreground transition-colors"
+                disabled={isSubmitting}
+              >
+                Continue browsing without an account →
+              </button>
+            </div>
           </div>
         </div>
       </div>
