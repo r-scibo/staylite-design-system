@@ -39,6 +39,14 @@ export const Navigation = () => {
             >
               Search
             </Link>
+            {role === "Guest" && user && (
+              <Link 
+                to="/profile" 
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                My Bookings
+              </Link>
+            )}
             {role === "Host" && (
               <Link 
                 to="/host" 
@@ -128,6 +136,15 @@ export const Navigation = () => {
             >
               Search
             </Link>
+            {role === "Guest" && user && (
+              <Link
+                to="/profile"
+                className="block px-3 py-2 text-base font-medium text-foreground hover:bg-secondary hover:text-primary rounded-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                My Bookings
+              </Link>
+            )}
             {role === "Host" && (
               <Link
                 to="/host"
