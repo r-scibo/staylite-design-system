@@ -66,9 +66,9 @@ export function SearchForm({
       <form onSubmit={handleSubmit} className="flex flex-wrap items-stretch gap-0 w-full max-w-6xl bg-surface rounded-full shadow-lg border border-border">
         {/* Location */}
         <div className="relative flex-1 min-w-[200px] px-6 py-3">
-          <label className="block text-xs font-semibold text-foreground mb-1">Dove</label>
+          <label className="block text-xs font-semibold text-foreground mb-1">Where</label>
           <Input
-            placeholder="Cerca destinazioni"
+            placeholder="Search destinations"
             value={location}
             onChange={(e) => {
               setLocation(e.target.value);
@@ -103,11 +103,11 @@ export function SearchForm({
         <Popover>
           <PopoverTrigger asChild>
             <div className="flex-1 min-w-[180px] px-6 py-3 cursor-pointer hover:bg-muted/50 transition-colors">
-              <label className="block text-xs font-semibold text-foreground mb-1">Date</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Dates</label>
               <div className="text-sm text-muted-foreground">
                 {checkIn && checkOut
                   ? `${format(checkIn, "dd MMM")} - ${format(checkOut, "dd MMM")}`
-                  : "Aggiungi date"}
+                  : "Add dates"}
               </div>
             </div>
           </PopoverTrigger>
@@ -134,9 +134,9 @@ export function SearchForm({
         <Popover>
           <PopoverTrigger asChild>
             <div className="flex-1 min-w-[140px] px-6 py-3 cursor-pointer hover:bg-muted/50 transition-colors">
-              <label className="block text-xs font-semibold text-foreground mb-1">Chi</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Who</label>
               <div className="text-sm text-muted-foreground">
-                {guests === 1 ? "1 ospite" : `${guests} ospiti`}
+                {guests === 1 ? "1 guest" : `${guests} guests`}
               </div>
             </div>
           </PopoverTrigger>
