@@ -344,7 +344,13 @@ export default function ListingDetail() {
             <div className="flex items-center gap-1">
               <MapPin className="h-4 w-4" />
               <span>
-                {listing.city}, {listing.country}
+                {user ? (
+                  // Show full address only to authenticated users
+                  listing.address || `${listing.city}, ${listing.country}`
+                ) : (
+                  // Show only city/country to unauthenticated users
+                  `${listing.city}, ${listing.country}`
+                )}
               </span>
             </div>
             <div className="flex items-center gap-1">
