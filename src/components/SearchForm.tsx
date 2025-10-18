@@ -63,10 +63,12 @@ export function SearchForm({
 
   if (compact) {
     return (
-      <form onSubmit={handleSubmit} className="flex flex-wrap items-end gap-2 w-full max-w-6xl bg-surface rounded-full shadow-lg px-4 py-3">
-        <div className="relative flex-1 min-w-[180px]">
+      <form onSubmit={handleSubmit} className="flex flex-wrap items-stretch gap-0 w-full max-w-6xl bg-surface rounded-full shadow-lg border border-border">
+        {/* Location */}
+        <div className="relative flex-1 min-w-[200px] px-6 py-3">
+          <label className="block text-xs font-semibold text-foreground mb-1">Dove</label>
           <Input
-            placeholder="Where?"
+            placeholder="Cerca destinazioni"
             value={location}
             onChange={(e) => {
               setLocation(e.target.value);
@@ -74,10 +76,10 @@ export function SearchForm({
             }}
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 h-6 p-0 text-sm text-muted-foreground"
           />
           {showSuggestions && filteredCities.length > 0 && (
-            <div className="absolute z-50 mt-1 w-full bg-popover border rounded-md shadow-lg max-h-60 overflow-auto">
+            <div className="absolute z-50 mt-1 w-full bg-popover border rounded-md shadow-lg max-h-60 overflow-auto left-0">
               {filteredCities.map((city) => (
                 <button
                   key={city}
@@ -95,15 +97,19 @@ export function SearchForm({
           )}
         </div>
 
-        <div className="border-l h-8 border-border/50" />
+        <div className="border-l border-border/30 my-3" />
 
+        {/* Dates */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" className="flex-1 min-w-[160px] justify-start font-normal border-0 hover:bg-transparent">
-              {checkIn && checkOut
-                ? `${format(checkIn, "dd MMM")} - ${format(checkOut, "dd MMM")}`
-                : "Add dates"}
-            </Button>
+            <div className="flex-1 min-w-[180px] px-6 py-3 cursor-pointer hover:bg-muted/50 transition-colors">
+              <label className="block text-xs font-semibold text-foreground mb-1">Date</label>
+              <div className="text-sm text-muted-foreground">
+                {checkIn && checkOut
+                  ? `${format(checkIn, "dd MMM")} - ${format(checkOut, "dd MMM")}`
+                  : "Aggiungi date"}
+              </div>
+            </div>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
             <div className="p-4">
@@ -122,13 +128,17 @@ export function SearchForm({
           </PopoverContent>
         </Popover>
 
-        <div className="border-l h-8 border-border/50" />
+        <div className="border-l border-border/30 my-3" />
 
+        {/* Guests */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="ghost" className="min-w-[120px] justify-start font-normal border-0 hover:bg-transparent">
-              {guests} {guests === 1 ? "guest" : "guests"}
-            </Button>
+            <div className="flex-1 min-w-[140px] px-6 py-3 cursor-pointer hover:bg-muted/50 transition-colors">
+              <label className="block text-xs font-semibold text-foreground mb-1">Chi</label>
+              <div className="text-sm text-muted-foreground">
+                {guests === 1 ? "1 ospite" : `${guests} ospiti`}
+              </div>
+            </div>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-4" align="start">
             <div className="flex items-center gap-3">
@@ -158,9 +168,12 @@ export function SearchForm({
           </PopoverContent>
         </Popover>
 
-        <Button type="submit" size="icon" className="h-12 w-12 rounded-full shrink-0">
-          <Search className="h-5 w-5" />
-        </Button>
+        {/* Search Button */}
+        <div className="flex items-center pr-2 py-2">
+          <Button type="submit" size="icon" className="h-12 w-12 rounded-full shrink-0 bg-accent hover:bg-accent/90">
+            <Search className="h-5 w-5" />
+          </Button>
+        </div>
       </form>
     );
   }
