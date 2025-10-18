@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Navigation } from "@/components/Navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ReservationTable } from "@/components/ReservationTable";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HostListingsTab } from "@/components/HostListingsTab";
+import { HostCalendarTab } from "@/components/HostCalendarTab";
 import { Info } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -89,17 +91,35 @@ const Host = () => {
         
         <h1 className="text-4xl font-bold mb-6">Host Dashboard</h1>
         
-        <Card>
-          <CardHeader>
-            <CardTitle>Reservations</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <Tabs defaultValue="listings" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="listings">Listings</TabsTrigger>
+            <TabsTrigger value="calendar">Calendar</TabsTrigger>
+            <TabsTrigger value="reservations">Reservations</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="listings">
+            <HostListingsTab />
+          </TabsContent>
+
+          <TabsContent value="calendar">
+            <HostCalendarTab />
+          </TabsContent>
+
+          <TabsContent value="reservations">
             <ReservationTable
               reservations={reservations}
               onUpdate={fetchReservations}
             />
-          </CardContent>
-        </Card>
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <div className="text-center py-12 text-muted">
+              Settings coming soon
+            </div>
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
