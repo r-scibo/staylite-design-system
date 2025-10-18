@@ -1,7 +1,6 @@
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserRole, UserRole } from "@/hooks/useUserRole";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { useAuth } from "@/hooks/useAuth";
 import { Button } from "./ui/button";
 import { ShieldAlert } from "lucide-react";
 
@@ -12,7 +11,6 @@ interface RoleRouteProps {
 
 export const RoleRoute = ({ children, allowedRole }: RoleRouteProps) => {
   const { role, loading } = useUserRole();
-  const { user } = useAuth();
   const navigate = useNavigate();
 
   if (loading) {
@@ -23,12 +21,7 @@ export const RoleRoute = ({ children, allowedRole }: RoleRouteProps) => {
     );
   }
 
-  // Not authenticated - redirect to auth with next parameter
-  if (!user) {
-    return <Navigate to="/auth?next=/host" replace />;
-  }
-
-  // Authenticated but wrong role - show access denied
+  // User is authenticated (via ProtectedRoute) but has wrong role - show access denied
   if (role !== allowedRole) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
