@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { HostListingsTab } from "@/components/HostListingsTab";
 import { HostCalendarTab } from "@/components/HostCalendarTab";
 import { PendingBookingRequests } from "@/components/PendingBookingRequests";
+import { BookingActivityLog } from "@/components/BookingActivityLog";
 import { Info } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -16,10 +17,12 @@ import type { Database } from "@/integrations/supabase/types";
 type Reservation = Database["public"]["Tables"]["bookings"]["Row"] & {
   listings: {
     title: string;
+    city: string;
+    property_type: string;
   };
   profiles: {
     name: string | null;
-  };
+  } | null;
 };
 
 const Host = () => {
@@ -45,6 +48,8 @@ const Host = () => {
           *,
           listings!inner (
             title,
+            city,
+            property_type,
             host_id
           ),
           profiles!bookings_guest_id_fkey (
@@ -98,10 +103,11 @@ const Host = () => {
         </div>
         
         <Tabs defaultValue="listings" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="listings">Listings</TabsTrigger>
             <TabsTrigger value="calendar">Calendar</TabsTrigger>
             <TabsTrigger value="reservations">Reservations</TabsTrigger>
+            <TabsTrigger value="activity">Activity</TabsTrigger>
             <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
@@ -118,6 +124,10 @@ const Host = () => {
               reservations={reservations}
               onUpdate={fetchReservations}
             />
+          </TabsContent>
+
+          <TabsContent value="activity">
+            <BookingActivityLog />
           </TabsContent>
 
           <TabsContent value="settings">
