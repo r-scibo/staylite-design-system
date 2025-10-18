@@ -24,7 +24,7 @@ interface PendingBooking {
   };
   profiles: {
     name: string | null;
-  };
+  } | null;
 }
 
 export function PendingBookingRequests() {
@@ -173,7 +173,7 @@ export function PendingBookingRequests() {
                 {/* Guest Info */}
                 <div className="flex items-center gap-2 text-sm">
                   <span className="font-medium">Guest:</span>
-                  <span className="text-muted-foreground">{booking.profiles.name || "Guest User"}</span>
+                  <span className="text-muted-foreground">{booking.profiles?.name || "Guest User"}</span>
                 </div>
 
                 {/* Booking Details */}
