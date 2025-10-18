@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Search from "./pages/Search";
 import ListingDetail from "./pages/ListingDetail";
+import BookingReview from "./pages/BookingReview";
 import BookingConfirm from "./pages/BookingConfirm";
 import Profile from "./pages/Profile";
 import Host from "./pages/Host";
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/auth" element={<Auth />} />
           <Route path="/search" element={<Search />} />
           <Route path="/listing/:slug" element={<ListingDetail />} />
+          <Route path="/booking/review" element={<BookingReview />} />
           <Route path="/confirm/:bookingId" element={<BookingConfirm />} />
           <Route
             path="/profile"

@@ -257,7 +257,7 @@ export default function ListingDetail() {
     return null;
   };
 
-  const handleReserve = async () => {
+  const handleReserve = () => {
     const validationError = validateBooking();
     if (validationError) {
       toast({
@@ -268,62 +268,17 @@ export default function ListingDetail() {
       return;
     }
 
-    if (!user || !listing || !checkIn || !checkOut) return;
+    if (!listing || !checkIn || !checkOut) return;
 
-    setIsBooking(true);
-    try {
-      // Get guest profile
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("auth_user_id", user.id)
-        .single();
+    // Navigate to booking review page
+    const params = new URLSearchParams({
+      listingId: listing.id,
+      checkIn: format(checkIn, "yyyy-MM-dd"),
+      checkOut: format(checkOut, "yyyy-MM-dd"),
+      guests: guests.toString(),
+    });
 
-      if (!profileData) throw new Error("Profile not found");
-
-      const pricing = calculatePricing();
-      if (!pricing) throw new Error("Could not calculate pricing");
-
-      const status = listing.host_approval_required ? "PENDING" : "CONFIRMED";
-
-      const { data: bookingData, error: bookingError } = await supabase
-        .from("bookings")
-        .insert({
-          listing_id: listing.id,
-          guest_id: profileData.id,
-          check_in: format(checkIn, "yyyy-MM-dd"),
-          check_out: format(checkOut, "yyyy-MM-dd"),
-          guests_count: guests,
-          nightly_price: pricing.subtotal / pricing.nights,
-          cleaning_fee: pricing.cleaningFee,
-          service_fee: pricing.serviceFee,
-          taxes: pricing.taxes,
-          total: pricing.total,
-          status,
-        })
-        .select()
-        .single();
-
-      if (bookingError) throw bookingError;
-
-      toast({
-        title: "Booking Created",
-        description: status === "PENDING" 
-          ? "Your booking request has been sent to the host"
-          : "Your booking is confirmed!",
-      });
-
-      navigate(`/confirm/${bookingData.id}`);
-    } catch (error: any) {
-      console.error("Error creating booking:", error);
-      toast({
-        title: "Booking Failed",
-        description: error.message || "Failed to create booking",
-        variant: "destructive",
-      });
-    } finally {
-      setIsBooking(false);
-    }
+    navigate(`/booking/review?${params.toString()}`);
   };
 
   if (loading) {
