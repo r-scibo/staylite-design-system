@@ -27,7 +27,7 @@ interface Amenity {
   icon: string | null;
 }
 
-const PROPERTY_TYPES = ["apartment", "house", "villa", "studio", "loft", "cottage"];
+const PROPERTY_TYPES = ["Apartment", "House", "Villa", "Studio", "Loft", "Cottage"];
 
 export function SearchFilters({
   minPrice,
