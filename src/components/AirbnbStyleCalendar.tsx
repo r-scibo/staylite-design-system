@@ -48,7 +48,7 @@ export function AirbnbStyleCalendar({
     addMonths(currentMonth, i)
   );
 
-  const weekDays = ["L", "M", "M", "G", "V", "S", "D"];
+  const weekDays = ["M", "T", "W", "T", "F", "S", "S"];
 
   const isDateDisabled = (date: Date) => {
     if (isBefore(startOfDay(date), startOfDay(minDate))) return true;
@@ -191,9 +191,9 @@ export function AirbnbStyleCalendar({
             <div key={month.toISOString()} className="flex-1">
               {/* Week days header */}
               <div className="grid grid-cols-7 gap-1 mb-2">
-                {weekDays.map((day) => (
+                {weekDays.map((day, idx) => (
                   <div
-                    key={day}
+                    key={`weekday-${idx}`}
                     className="h-12 flex items-center justify-center text-xs font-medium text-muted-foreground"
                   >
                     {day}
