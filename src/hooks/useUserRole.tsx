@@ -18,23 +18,7 @@ export const useUserRole = () => {
       }
 
       try {
-        // Check if user is host@test.com and auto-assign Host role
-        if (user.email === "host@test.com") {
-          const { data: existingRole } = await supabase
-            .from("user_roles")
-            .select("role")
-            .eq("user_id", user.id)
-            .eq("role", "Host")
-            .single();
-
-          if (!existingRole) {
-            await supabase
-              .from("user_roles")
-              .insert({ user_id: user.id, role: "Host" });
-          }
-        }
-
-        // Fetch user roles
+        // Fetch user roles (assigned by trigger on signup)
         const { data, error } = await supabase
           .from("user_roles")
           .select("role")
