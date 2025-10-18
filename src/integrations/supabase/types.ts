@@ -14,6 +14,264 @@ export type Database = {
   }
   public: {
     Tables: {
+      amenities: {
+        Row: {
+          created_at: string
+          icon: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          icon?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      availability: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          listing_id: string
+          price_override: number | null
+          status: Database["public"]["Enums"]["availability_status"]
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          listing_id: string
+          price_override?: number | null
+          status?: Database["public"]["Enums"]["availability_status"]
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          listing_id?: string
+          price_override?: number | null
+          status?: Database["public"]["Enums"]["availability_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "availability_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          check_in: string
+          check_out: string
+          cleaning_fee: number
+          created_at: string
+          guest_id: string
+          guests_count: number
+          id: string
+          listing_id: string
+          nightly_price: number
+          service_fee: number
+          status: Database["public"]["Enums"]["booking_status"]
+          taxes: number
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          check_in: string
+          check_out: string
+          cleaning_fee?: number
+          created_at?: string
+          guest_id: string
+          guests_count: number
+          id?: string
+          listing_id: string
+          nightly_price: number
+          service_fee?: number
+          status?: Database["public"]["Enums"]["booking_status"]
+          taxes?: number
+          total: number
+          updated_at?: string
+        }
+        Update: {
+          check_in?: string
+          check_out?: string
+          cleaning_fee?: number
+          created_at?: string
+          guest_id?: string
+          guests_count?: number
+          id?: string
+          listing_id?: string
+          nightly_price?: number
+          service_fee?: number
+          status?: Database["public"]["Enums"]["booking_status"]
+          taxes?: number
+          total?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listing_amenities: {
+        Row: {
+          amenity_id: string
+          listing_id: string
+        }
+        Insert: {
+          amenity_id: string
+          listing_id: string
+        }
+        Update: {
+          amenity_id?: string
+          listing_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_amenities_amenity_id_fkey"
+            columns: ["amenity_id"]
+            isOneToOne: false
+            referencedRelation: "amenities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "listing_amenities_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listing_photos: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string
+          sort_order: number
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id: string
+          sort_order?: number
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string
+          sort_order?: number
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listing_photos_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listings: {
+        Row: {
+          address: string | null
+          base_price: number
+          city: string
+          cleaning_fee: number
+          country: string
+          created_at: string
+          description: string | null
+          host_approval_required: boolean | null
+          host_id: string
+          id: string
+          lat: number | null
+          lng: number | null
+          max_guests: number
+          property_type: string
+          rating_avg: number | null
+          rating_count: number | null
+          slug: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string | null
+          base_price: number
+          city: string
+          cleaning_fee?: number
+          country?: string
+          created_at?: string
+          description?: string | null
+          host_approval_required?: boolean | null
+          host_id: string
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          max_guests: number
+          property_type: string
+          rating_avg?: number | null
+          rating_count?: number | null
+          slug: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string | null
+          base_price?: number
+          city?: string
+          cleaning_fee?: number
+          country?: string
+          created_at?: string
+          description?: string | null
+          host_approval_required?: boolean | null
+          host_id?: string
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          max_guests?: number
+          property_type?: string
+          rating_avg?: number | null
+          rating_count?: number | null
+          slug?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "listings_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           auth_user_id: string
@@ -40,6 +298,58 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      reviews: {
+        Row: {
+          booking_id: string | null
+          comment: string | null
+          created_at: string
+          guest_id: string
+          id: string
+          listing_id: string
+          rating: number
+        }
+        Insert: {
+          booking_id?: string | null
+          comment?: string | null
+          created_at?: string
+          guest_id: string
+          id?: string
+          listing_id: string
+          rating: number
+        }
+        Update: {
+          booking_id?: string | null
+          comment?: string | null
+          created_at?: string
+          guest_id?: string
+          id?: string
+          listing_id?: string
+          rating?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_guest_id_fkey"
+            columns: ["guest_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -77,6 +387,9 @@ export type Database = {
     }
     Enums: {
       app_role: "Guest" | "Host"
+      availability_status: "OPEN" | "BLOCKED" | "BOOKED"
+      booking_status: "PENDING" | "CONFIRMED" | "DECLINED" | "CANCELLED"
+      property_type: "apartment" | "house" | "villa" | "studio" | "loft"
       user_role: "Guest" | "Host"
     }
     CompositeTypes: {
@@ -206,6 +519,9 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["Guest", "Host"],
+      availability_status: ["OPEN", "BLOCKED", "BOOKED"],
+      booking_status: ["PENDING", "CONFIRMED", "DECLINED", "CANCELLED"],
+      property_type: ["apartment", "house", "villa", "studio", "loft"],
       user_role: ["Guest", "Host"],
     },
   },
