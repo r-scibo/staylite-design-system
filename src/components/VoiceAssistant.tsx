@@ -41,16 +41,33 @@ export const VoiceAssistant = () => {
       // Request microphone access
       await navigator.mediaDevices.getUserMedia({ audio: true });
       
-      // Start conversation
+      // Get signed URL from our edge function
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-elevenlabs-signed-url`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to get signed URL');
+      }
+
+      const { signedUrl } = await response.json();
+      
+      // Start conversation with signed URL
       await conversation.startSession({ 
-        agentId: AGENT_ID 
+        signedUrl 
       });
       setIsActive(true);
     } catch (error) {
       console.error("Failed to start conversation:", error);
       toast({
-        title: "Microphone access required",
-        description: "Please allow microphone access to use voice assistant",
+        title: "Failed to start voice assistant",
+        description: error instanceof Error ? error.message : "Please try again",
         variant: "destructive",
       });
     }
