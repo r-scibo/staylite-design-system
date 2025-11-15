@@ -4,6 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Separator } from "@/components/ui/separator";
 import { Shield, Heart, Home, Phone, Mail, MapPin } from "lucide-react";
 import { VoiceAssistant } from "@/components/VoiceAssistant";
+import { SydeEmbed } from "@/components/SydeEmbed";
 
 const Information = () => {
   return (
@@ -183,6 +184,24 @@ const Information = () => {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+        </section>
+
+        <Separator className="my-12" />
+
+        {/* Voice Widget Customization */}
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold text-foreground mb-6">Customize Voice Assistant</h2>
+          <Card>
+            <CardHeader>
+              <CardTitle>Widget Configuration</CardTitle>
+              <CardDescription>
+                Customize the appearance of the voice assistant widget using the controls below.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <SydeEmbed />
+            </CardContent>
+          </Card>
         </section>
 
         <Separator className="my-12" />
