@@ -1,0 +1,121 @@
+{
+  "tools": [
+    {
+      "name": "search_apartments",
+      "description": "Use this tool to search the StayLite database for available apartments and properties. ALWAYS use this when a customer asks to find, search, or browse properties. Examples: 'Can you help me find a place in Milan?', 'Show me apartments in Rome for next week', 'What's available in Florence for 2 guests?'. Required parameters: location (city name). Optional: checkIn/checkOut dates (YYYY-MM-DD), guests (number), minPrice/maxPrice (EUR), propertyType (apartment/house/villa/studio/loft).",
+      "endpoint": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/search-apartments",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "location": {
+            "type": "string",
+            "description": "City name to search in (e.g., Milan, Rome, Florence)"
+          },
+          "checkIn": {
+            "type": "string",
+            "description": "Check-in date in YYYY-MM-DD format"
+          },
+          "checkOut": {
+            "type": "string",
+            "description": "Check-out date in YYYY-MM-DD format"
+          },
+          "guests": {
+            "type": "integer",
+            "description": "Number of guests"
+          },
+          "minPrice": {
+            "type": "number",
+            "description": "Minimum price per night in EUR"
+          },
+          "maxPrice": {
+            "type": "number",
+            "description": "Maximum price per night in EUR"
+          },
+          "propertyType": {
+            "type": "string",
+            "enum": ["apartment", "house", "villa", "studio", "loft"],
+            "description": "Type of property"
+          }
+        },
+        "required": ["location"]
+      }
+    },
+    {
+      "name": "get_listing_details",
+      "description": "Use this tool to get complete details about a specific property listing. Use this when a customer asks for more information about a property, wants to see reviews, amenities, photos, or check availability. You can search by listingId (UUID) or slug (URL-friendly name). Examples: 'Tell me more about the Milan Duomo Loft', 'What amenities does that apartment have?', 'Show me reviews for that property'. Either listingId OR slug is required. Optional: checkIn/checkOut to check availability.",
+      "endpoint": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/get-listing-details",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "listingId": {
+            "type": "string",
+            "description": "UUID of the listing"
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL slug of the listing (from search results)"
+          },
+          "checkIn": {
+            "type": "string",
+            "description": "Check-in date in YYYY-MM-DD format to check availability"
+          },
+          "checkOut": {
+            "type": "string",
+            "description": "Check-out date in YYYY-MM-DD format to check availability"
+          }
+        },
+        "oneOf": [
+          {"required": ["listingId"]},
+          {"required": ["slug"]}
+        ]
+      }
+    },
+    {
+      "name": "initiate_booking",
+      "description": "Use this tool to start the booking process for a property. ONLY use this after the customer has confirmed they want to book. This validates availability, calculates pricing, and generates a booking URL for the customer to complete. Examples: 'I want to book this property', 'Yes, let's proceed with the booking', 'Book it for me'. Required: listingId or slug, checkIn, checkOut, guests. Returns a booking URL that the customer must visit to sign in and complete payment.",
+      "endpoint": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/initiate-booking",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "listingId": {
+            "type": "string",
+            "description": "UUID of the listing to book"
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL slug of the listing to book"
+          },
+          "checkIn": {
+            "type": "string",
+            "description": "Check-in date in YYYY-MM-DD format"
+          },
+          "checkOut": {
+            "type": "string",
+            "description": "Check-out date in YYYY-MM-DD format"
+          },
+          "guests": {
+            "type": "integer",
+            "description": "Number of guests"
+          }
+        },
+        "required": ["checkIn", "checkOut", "guests"],
+        "oneOf": [
+          {"required": ["listingId"]},
+          {"required": ["slug"]}
+        ]
+      }
+    }
+  ]
+}

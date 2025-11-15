@@ -1,1 +1,17 @@
 project_id = "aqedotdjyvxwzhmpevtz"
+
+[api]
+enabled = true
+
+[auth]
+enabled = true
+site_url = "https://aqedotdjyvxwzhmpevtz.lovable.app"
+
+[functions.search-apartments]
+verify_jwt = false
+
+[functions.get-listing-details]
+verify_jwt = false
+
+[functions.initiate-booking]
+verify_jwt = false
