@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
-import { SydeWidget } from "@/components/syde/SydeWidget";
-import { SydeVoiceOverlay } from "@/components/syde/SydeVoiceOverlay";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -93,8 +91,6 @@ export default function ListingDetail() {
   const [checkOut, setCheckOut] = useState<Date | undefined>(undefined);
   const [guests, setGuests] = useState(2);
   const [isBooking, setIsBooking] = useState(false);
-  const [isVoiceOverlayOpen, setIsVoiceOverlayOpen] = useState(false);
-  const [showProactiveMessage, setShowProactiveMessage] = useState(false);
 
   // Initialize dates and guests from URL params
   useEffect(() => {
@@ -129,14 +125,6 @@ export default function ListingDetail() {
   useEffect(() => {
     fetchListingData();
   }, [slug]);
-
-  // Show proactive Syde message after page loads
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowProactiveMessage(true);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const fetchListingData = async () => {
     if (!slug) return;
@@ -540,27 +528,6 @@ export default function ListingDetail() {
           </div>
         </div>
       </main>
-
-      {/* Syde Voice Assistant with proactive message */}
-      <div className="relative">
-        <SydeWidget onClick={() => setIsVoiceOverlayOpen(true)} />
-        {showProactiveMessage && !isVoiceOverlayOpen && (
-          <div className="fixed bottom-32 right-8 z-40 animate-fade-in">
-            <div className="bg-accent text-accent-foreground px-4 py-3 rounded-lg shadow-lg max-w-xs">
-              <p className="font-medium">Is this what you're looking for?</p>
-              <p className="text-sm opacity-90 mt-1">Click to tell me more!</p>
-              <div className="absolute bottom-0 right-12 transform translate-y-1/2 rotate-45 w-3 h-3 bg-accent" />
-            </div>
-          </div>
-        )}
-      </div>
-      <SydeVoiceOverlay
-        isOpen={isVoiceOverlayOpen}
-        onClose={() => {
-          setIsVoiceOverlayOpen(false);
-          setShowProactiveMessage(false);
-        }}
-      />
     </div>
   );
 }

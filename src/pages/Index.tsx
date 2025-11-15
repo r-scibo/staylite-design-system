@@ -4,23 +4,9 @@ import { DestinationShowcase } from "@/components/DestinationShowcase";
 import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { SydeWidget } from "@/components/syde/SydeWidget";
-import { SydeVoiceOverlay, SearchParams } from "@/components/syde/SydeVoiceOverlay";
-import { useState } from "react";
 
 const Index = () => {
   const navigate = useNavigate();
-  const [isVoiceOverlayOpen, setIsVoiceOverlayOpen] = useState(false);
-
-  const handleSydeSearch = (params: SearchParams) => {
-    const searchParams = new URLSearchParams();
-    if (params.guests) searchParams.set('guests', params.guests.toString());
-    if (params.minPrice) searchParams.set('minPrice', params.minPrice.toString());
-    if (params.maxPrice) searchParams.set('maxPrice', params.maxPrice.toString());
-    if (params.city) searchParams.set('city', params.city);
-    
-    navigate(`/search?${searchParams.toString()}`);
-  };
   
   return (
     <div className="min-h-screen bg-background">
@@ -89,14 +75,6 @@ const Index = () => {
           ))}
         </div>
       </main>
-
-      {/* Syde Voice Assistant */}
-      <SydeWidget onClick={() => setIsVoiceOverlayOpen(true)} />
-      <SydeVoiceOverlay
-        isOpen={isVoiceOverlayOpen}
-        onClose={() => setIsVoiceOverlayOpen(false)}
-        onSearch={handleSydeSearch}
-      />
     </div>
   );
 };
