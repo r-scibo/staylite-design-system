@@ -8,10 +8,25 @@ export const SydeEmbed = () => {
   useEffect(() => {
     // Listen for messages from Syde iframe
     const handleMessage = (event: MessageEvent) => {
+      console.log('Message from Syde:', event.data);
+      
       if (event.origin !== "https://syde.lovable.app") return;
       
-      // Forward Syde messages to voice widget
-      window.postMessage(event.data, "*");
+      if (event.data.type === 'VOICE_WIDGET_CONFIG') {
+        const config = event.data.payload;
+        console.log('Widget config:', config);
+        
+        // Forward to voice widget
+        window.postMessage(event.data, "*");
+        
+        // Send acknowledgment back to Syde
+        if (iframeRef.current?.contentWindow) {
+          iframeRef.current.contentWindow.postMessage({
+            type: 'CONFIG_RECEIVED',
+            payload: { success: true }
+          }, '*');
+        }
+      }
     };
 
     window.addEventListener("message", handleMessage);
@@ -41,7 +56,7 @@ export const SydeEmbed = () => {
     <div className="w-full h-[600px] border border-border rounded-lg overflow-hidden">
       <iframe
         ref={iframeRef}
-        src="https://syde.lovable.app/customize"
+        src="https://syde.lovable.app/debug-comms"
         className="w-full h-full"
         title="Syde Voice Widget Customizer"
         allow="microphone"
