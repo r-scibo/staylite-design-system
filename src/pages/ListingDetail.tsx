@@ -543,7 +543,7 @@ export default function ListingDetail() {
 
       {/* Syde Voice Assistant with proactive message */}
       <div className="relative">
-        <SydeWidget onClick={() => setIsVoiceOverlayOpen(true)} />
+        <SydeWidget onClick={() => setIsVoiceOverlayOpen(true)} showTooltip={false} />
         {showProactiveMessage && !isVoiceOverlayOpen && (
           <div className="fixed bottom-32 right-8 z-40 animate-fade-in">
             <div className="bg-accent text-accent-foreground px-4 py-3 rounded-lg shadow-lg max-w-xs">
