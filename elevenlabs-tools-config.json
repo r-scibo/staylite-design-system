@@ -1,121 +1,272 @@
 {
   "tools": [
     {
+      "type": "webhook",
       "name": "search_apartments",
       "description": "Use this tool to search the StayLite database for available apartments and properties. ALWAYS use this when a customer asks to find, search, or browse properties. Examples: 'Can you help me find a place in Milan?', 'Show me apartments in Rome for next week', 'What's available in Florence for 2 guests?'. Required parameters: location (city name). Optional: checkIn/checkOut dates (YYYY-MM-DD), guests (number), minPrice/maxPrice (EUR), propertyType (apartment/house/villa/studio/loft).",
-      "endpoint": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/search-apartments",
-      "method": "POST",
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "parameters": {
-        "type": "object",
-        "properties": {
-          "location": {
-            "type": "string",
-            "description": "City name to search in (e.g., Milan, Rome, Florence)"
-          },
-          "checkIn": {
-            "type": "string",
-            "description": "Check-in date in YYYY-MM-DD format"
-          },
-          "checkOut": {
-            "type": "string",
-            "description": "Check-out date in YYYY-MM-DD format"
-          },
-          "guests": {
-            "type": "integer",
-            "description": "Number of guests"
-          },
-          "minPrice": {
-            "type": "number",
-            "description": "Minimum price per night in EUR"
-          },
-          "maxPrice": {
-            "type": "number",
-            "description": "Maximum price per night in EUR"
-          },
-          "propertyType": {
-            "type": "string",
-            "enum": ["apartment", "house", "villa", "studio", "loft"],
-            "description": "Type of property"
-          }
+      "api_schema": {
+        "url": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/search-apartments",
+        "method": "POST",
+        "path_params_schema": [],
+        "query_params_schema": [],
+        "request_body_schema": {
+          "id": "body",
+          "type": "object",
+          "description": "Search parameters for apartment listings",
+          "required": true,
+          "properties": [
+            {
+              "id": "location",
+              "type": "string",
+              "description": "City name to search in (e.g., Milan, Rome, Florence)",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": true
+            },
+            {
+              "id": "checkIn",
+              "type": "string",
+              "description": "Check-in date in YYYY-MM-DD format",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "checkOut",
+              "type": "string",
+              "description": "Check-out date in YYYY-MM-DD format",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "guests",
+              "type": "integer",
+              "description": "Number of guests",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "minPrice",
+              "type": "number",
+              "description": "Minimum price per night in EUR",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "maxPrice",
+              "type": "number",
+              "description": "Maximum price per night in EUR",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "propertyType",
+              "type": "string",
+              "description": "Type of property",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false,
+              "enum": ["apartment", "house", "villa", "studio", "loft"]
+            }
+          ],
+          "dynamic_variable": "",
+          "constant_value": "",
+          "value_type": "llm_prompt"
         },
-        "required": ["location"]
-      }
+        "request_headers": [
+          {
+            "type": "value",
+            "name": "Content-Type",
+            "secret_id": "",
+            "value": "application/json"
+          }
+        ],
+        "auth_connection": null
+      },
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {}
+      },
+      "assignments": [],
+      "disable_interruptions": false,
+      "tool_call_sound": null,
+      "tool_call_sound_behavior": "auto",
+      "response_timeout_secs": 20,
+      "force_pre_tool_speech": "auto",
+      "execution_mode": "post_tool_speech"
     },
     {
+      "type": "webhook",
       "name": "get_listing_details",
       "description": "Use this tool to get complete details about a specific property listing. Use this when a customer asks for more information about a property, wants to see reviews, amenities, photos, or check availability. You can search by listingId (UUID) or slug (URL-friendly name). Examples: 'Tell me more about the Milan Duomo Loft', 'What amenities does that apartment have?', 'Show me reviews for that property'. Either listingId OR slug is required. Optional: checkIn/checkOut to check availability.",
-      "endpoint": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/get-listing-details",
-      "method": "POST",
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "parameters": {
-        "type": "object",
-        "properties": {
-          "listingId": {
-            "type": "string",
-            "description": "UUID of the listing"
-          },
-          "slug": {
-            "type": "string",
-            "description": "URL slug of the listing (from search results)"
-          },
-          "checkIn": {
-            "type": "string",
-            "description": "Check-in date in YYYY-MM-DD format to check availability"
-          },
-          "checkOut": {
-            "type": "string",
-            "description": "Check-out date in YYYY-MM-DD format to check availability"
-          }
+      "api_schema": {
+        "url": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/get-listing-details",
+        "method": "POST",
+        "path_params_schema": [],
+        "query_params_schema": [],
+        "request_body_schema": {
+          "id": "body",
+          "type": "object",
+          "description": "Parameters to retrieve listing details",
+          "required": true,
+          "properties": [
+            {
+              "id": "listingId",
+              "type": "string",
+              "description": "UUID of the listing",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "slug",
+              "type": "string",
+              "description": "URL slug of the listing (from search results)",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "checkIn",
+              "type": "string",
+              "description": "Check-in date in YYYY-MM-DD format to check availability",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "checkOut",
+              "type": "string",
+              "description": "Check-out date in YYYY-MM-DD format to check availability",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            }
+          ],
+          "dynamic_variable": "",
+          "constant_value": "",
+          "value_type": "llm_prompt"
         },
-        "oneOf": [
-          {"required": ["listingId"]},
-          {"required": ["slug"]}
-        ]
-      }
+        "request_headers": [
+          {
+            "type": "value",
+            "name": "Content-Type",
+            "secret_id": "",
+            "value": "application/json"
+          }
+        ],
+        "auth_connection": null
+      },
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {}
+      },
+      "assignments": [],
+      "disable_interruptions": false,
+      "tool_call_sound": null,
+      "tool_call_sound_behavior": "auto",
+      "response_timeout_secs": 20,
+      "force_pre_tool_speech": "auto",
+      "execution_mode": "post_tool_speech"
     },
     {
+      "type": "webhook",
       "name": "initiate_booking",
       "description": "Use this tool to start the booking process for a property. ONLY use this after the customer has confirmed they want to book. This validates availability, calculates pricing, and generates a booking URL for the customer to complete. Examples: 'I want to book this property', 'Yes, let's proceed with the booking', 'Book it for me'. Required: listingId or slug, checkIn, checkOut, guests. Returns a booking URL that the customer must visit to sign in and complete payment.",
-      "endpoint": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/initiate-booking",
-      "method": "POST",
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "parameters": {
-        "type": "object",
-        "properties": {
-          "listingId": {
-            "type": "string",
-            "description": "UUID of the listing to book"
-          },
-          "slug": {
-            "type": "string",
-            "description": "URL slug of the listing to book"
-          },
-          "checkIn": {
-            "type": "string",
-            "description": "Check-in date in YYYY-MM-DD format"
-          },
-          "checkOut": {
-            "type": "string",
-            "description": "Check-out date in YYYY-MM-DD format"
-          },
-          "guests": {
-            "type": "integer",
-            "description": "Number of guests"
-          }
+      "api_schema": {
+        "url": "https://aqedotdjyvxwzhmpevtz.supabase.co/functions/v1/initiate-booking",
+        "method": "POST",
+        "path_params_schema": [],
+        "query_params_schema": [],
+        "request_body_schema": {
+          "id": "body",
+          "type": "object",
+          "description": "Booking initiation parameters",
+          "required": true,
+          "properties": [
+            {
+              "id": "listingId",
+              "type": "string",
+              "description": "UUID of the listing to book",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "slug",
+              "type": "string",
+              "description": "URL slug of the listing to book",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": false
+            },
+            {
+              "id": "checkIn",
+              "type": "string",
+              "description": "Check-in date in YYYY-MM-DD format",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": true
+            },
+            {
+              "id": "checkOut",
+              "type": "string",
+              "description": "Check-out date in YYYY-MM-DD format",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": true
+            },
+            {
+              "id": "guests",
+              "type": "integer",
+              "description": "Number of guests",
+              "dynamic_variable": "",
+              "constant_value": "",
+              "value_type": "llm_prompt",
+              "required": true
+            }
+          ],
+          "dynamic_variable": "",
+          "constant_value": "",
+          "value_type": "llm_prompt"
         },
-        "required": ["checkIn", "checkOut", "guests"],
-        "oneOf": [
-          {"required": ["listingId"]},
-          {"required": ["slug"]}
-        ]
-      }
+        "request_headers": [
+          {
+            "type": "value",
+            "name": "Content-Type",
+            "secret_id": "",
+            "value": "application/json"
+          }
+        ],
+        "auth_connection": null
+      },
+      "dynamic_variables": {
+        "dynamic_variable_placeholders": {}
+      },
+      "assignments": [],
+      "disable_interruptions": false,
+      "tool_call_sound": null,
+      "tool_call_sound_behavior": "auto",
+      "response_timeout_secs": 20,
+      "force_pre_tool_speech": "auto",
+      "execution_mode": "post_tool_speech"
     }
   ]
 }
