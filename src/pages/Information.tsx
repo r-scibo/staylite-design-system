@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
 import { Shield, Heart, Home, Phone, Mail, MapPin } from "lucide-react";
+import { VoiceAssistant } from "@/components/VoiceAssistant";
 
 const Information = () => {
   return (
@@ -16,31 +17,9 @@ const Information = () => {
         <p className="text-lg text-muted">Everything you need to know about StayLite</p>
       </div>
 
-      {/* Voice Assistant - Use the global widget */}
+      {/* Voice Assistant */}
       <div className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle>Voice Assistant</CardTitle>
-            <CardDescription>
-              Get help using your voice with our AI assistant
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-muted-foreground">
-              Click the floating microphone button in the bottom-right corner to start talking with our AI assistant.
-              The assistant can help you navigate the site, search for listings, and answer questions.
-            </p>
-            <div className="bg-muted p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">What you can say:</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• "Take me to the search page"</li>
-                <li>• "Show me listings in Milan"</li>
-                <li>• "Open my profile"</li>
-                <li>• "Scroll to destinations"</li>
-              </ul>
-            </div>
-          </CardContent>
-        </Card>
+        <VoiceAssistant />
       </div>
 
         {/* Policies Section */}
