@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
 import { Shield, Heart, Home, Phone, Mail, MapPin } from "lucide-react";
+import { VoiceAssistant } from "@/components/VoiceAssistant";
 
 const Information = () => {
   return (
@@ -10,11 +11,16 @@ const Information = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 py-8 max-w-4xl">
-        {/* Hero Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">Help Center</h1>
-          <p className="text-lg text-muted">Everything you need to know about StayLite</p>
-        </div>
+      {/* Hero Section */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-foreground mb-4">Help Center</h1>
+        <p className="text-lg text-muted">Everything you need to know about StayLite</p>
+      </div>
+
+      {/* Voice Assistant */}
+      <div className="mb-12">
+        <VoiceAssistant />
+      </div>
 
         {/* Policies Section */}
         <section className="mb-12">
