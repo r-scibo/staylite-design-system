@@ -18,6 +18,7 @@ import Information from "./pages/Information";
 import ExportData from "./pages/ExportData";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { RoleRoute } from "./components/RoleRoute";
+import { SydeContainer } from "./components/syde/SydeContainer";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <SydeContainer />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
