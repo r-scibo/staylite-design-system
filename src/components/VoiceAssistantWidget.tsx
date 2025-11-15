@@ -79,6 +79,7 @@ export const VoiceAssistantWidget = () => {
             shapeClasses[widgetConfig.shape],
             "bg-accent hover:bg-accent/90"
           )}
+          style={widgetConfig.primaryColor ? { backgroundColor: widgetConfig.primaryColor } : undefined}
         >
           <Mic className="h-6 w-6" />
         </Button>
@@ -98,10 +99,14 @@ export const VoiceAssistantWidget = () => {
             shapeClasses[widgetConfig.shape],
             "bg-accent hover:bg-accent/90"
           )}
+          style={widgetConfig.primaryColor ? { backgroundColor: widgetConfig.primaryColor } : undefined}
         >
           <Mic className="h-6 w-6" />
           {isSpeaking && (
-            <div className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
+            <div 
+              className="absolute inset-0 rounded-full animate-ping opacity-75"
+              style={widgetConfig.primaryColor ? { backgroundColor: widgetConfig.primaryColor } : undefined}
+            />
           )}
         </Button>
       </div>
@@ -126,11 +131,15 @@ export const VoiceAssistantWidget = () => {
                 "h-10 w-10 rounded-full bg-accent flex items-center justify-center",
                 shapeClasses[widgetConfig.shape]
               )}
+              style={widgetConfig.primaryColor ? { backgroundColor: widgetConfig.primaryColor } : undefined}
             >
-              <Mic className="h-5 w-5 text-accent-foreground" />
+              <Mic className="h-5 w-5 text-white" />
             </div>
             {isSpeaking && (
-              <div className="absolute inset-0 rounded-full bg-accent animate-ping opacity-75" />
+              <div 
+                className="absolute inset-0 rounded-full animate-ping opacity-75"
+                style={widgetConfig.primaryColor ? { backgroundColor: widgetConfig.primaryColor } : undefined}
+              />
             )}
           </div>
           <div>
