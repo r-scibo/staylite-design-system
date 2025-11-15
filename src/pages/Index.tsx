@@ -14,17 +14,17 @@ const Index = () => {
       
       <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Search Section */}
-        <div className="flex items-center justify-center py-8">
+        <div id="search-section" className="flex items-center justify-center py-8">
           <SearchForm compact />
         </div>
 
         {/* Destination Showcase */}
-        <div className="py-8">
+        <div id="destinations-section" className="py-8">
           <DestinationShowcase />
         </div>
 
         {/* Host CTA */}
-        <div className="py-8">
+        <div id="host-cta-section" className="py-8">
           <div className="rounded-lg border border-border bg-surface p-8 shadow-medium text-center">
             <div className="mb-4 inline-flex rounded-full bg-accent/10 p-3">
               <Home className="h-8 w-8 text-accent" />
@@ -46,7 +46,7 @@ const Index = () => {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid gap-6 py-16 sm:grid-cols-2 lg:grid-cols-3">
+        <div id="features-section" className="grid gap-6 py-16 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
               title: "Verified Listings",

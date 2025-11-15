@@ -4,14 +4,103 @@ import { Mic, MicOff, Phone } from "lucide-react";
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const AGENT_ID = "agent_4901ka3wrqzgedvr4f03bdt1924f";
 
 export const VoiceAssistant = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
   
+  const clientTools = {
+    navigateToPage: (parameters: { page: string }) => {
+      const pageMap: Record<string, string> = {
+        home: '/',
+        search: '/search',
+        profile: '/profile',
+        host: '/host',
+        info: '/info'
+      };
+      
+      const path = pageMap[parameters.page];
+      if (path) {
+        navigate(path);
+        return `Navigated to ${parameters.page} page`;
+      }
+      return `Unknown page: ${parameters.page}`;
+    },
+
+    searchListings: (parameters: {
+      city?: string;
+      checkIn?: string;
+      checkOut?: string;
+      guests?: number;
+      minPrice?: number;
+      maxPrice?: number;
+      propertyType?: string;
+    }) => {
+      const searchParams = new URLSearchParams();
+      
+      if (parameters.city) searchParams.set('city', parameters.city);
+      if (parameters.checkIn) searchParams.set('checkIn', parameters.checkIn);
+      if (parameters.checkOut) searchParams.set('checkOut', parameters.checkOut);
+      if (parameters.guests) searchParams.set('guests', parameters.guests.toString());
+      if (parameters.minPrice) searchParams.set('minPrice', parameters.minPrice.toString());
+      if (parameters.maxPrice) searchParams.set('maxPrice', parameters.maxPrice.toString());
+      if (parameters.propertyType) searchParams.set('propertyType', parameters.propertyType);
+      
+      navigate(`/search?${searchParams.toString()}`);
+      return `Searching for listings with your criteria`;
+    },
+
+    openListing: (parameters: { slug: string }) => {
+      navigate(`/listing/${parameters.slug}`);
+      return `Opening listing: ${parameters.slug}`;
+    },
+
+    scrollToSection: (parameters: { section: string }) => {
+      const sectionMap: Record<string, string> = {
+        search: 'search-section',
+        destinations: 'destinations-section',
+        'host-cta': 'host-cta-section',
+        features: 'features-section'
+      };
+      
+      const elementId = sectionMap[parameters.section];
+      if (elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return `Scrolled to ${parameters.section} section`;
+        }
+        return `Section ${parameters.section} not found on current page`;
+      }
+      return `Unknown section: ${parameters.section}`;
+    },
+
+    showMessage: (parameters: { message: string; type?: string }) => {
+      const typeMap: Record<string, 'default' | 'destructive'> = {
+        error: 'destructive',
+        warning: 'destructive',
+        success: 'default',
+        info: 'default'
+      };
+      
+      toast({
+        title: parameters.type === 'error' ? 'Error' : 
+               parameters.type === 'warning' ? 'Warning' :
+               parameters.type === 'success' ? 'Success' : 'Information',
+        description: parameters.message,
+        variant: typeMap[parameters.type || 'info'] || 'default'
+      });
+      
+      return 'Message displayed';
+    }
+  };
+  
   const conversation = useConversation({
+    clientTools,
     onConnect: () => {
       toast({
         title: "Voice assistant connected",
