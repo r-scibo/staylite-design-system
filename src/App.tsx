@@ -14,6 +14,7 @@ import Host from "./pages/Host";
 import HostListingDetail from "./pages/HostListingDetail";
 import NotFound from "./pages/NotFound";
 import CreateTestData from "./pages/CreateTestData";
+import Information from "./pages/Information";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { RoleRoute } from "./components/RoleRoute";
 
@@ -63,6 +64,7 @@ const App = () => (
             }
           />
           <Route path="/create-test-data" element={<CreateTestData />} />
+          <Route path="/info" element={<Information />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
