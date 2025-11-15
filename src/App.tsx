@@ -18,6 +18,8 @@ import Information from "./pages/Information";
 import ExportData from "./pages/ExportData";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { RoleRoute } from "./components/RoleRoute";
+import { VoiceAssistantProvider } from "./contexts/VoiceAssistantContext";
+import { VoiceAssistantWidget } from "./components/VoiceAssistantWidget";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +29,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
+        <VoiceAssistantProvider>
+          <VoiceAssistantWidget />
+          <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/search" element={<Search />} />
@@ -70,6 +74,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </VoiceAssistantProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
