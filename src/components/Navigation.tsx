@@ -42,6 +42,12 @@ export const Navigation = () => {
             >
               Search
             </Link>
+            <Link 
+              to="/info" 
+              className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+            >
+              Help
+            </Link>
             {role === "Guest" && user && (
               <Link 
                 to="/profile" 
@@ -144,6 +150,13 @@ export const Navigation = () => {
               onClick={() => setMobileMenuOpen(false)}
             >
               Search
+            </Link>
+            <Link
+              to="/info"
+              className="block px-3 py-2 text-base font-medium text-foreground hover:bg-secondary hover:text-primary rounded-md transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Help
             </Link>
             {role === "Guest" && user && (
               <Link

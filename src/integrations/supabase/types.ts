@@ -473,6 +473,12 @@ export type Database = {
       fn_compute_total: {
         Args: { _cleaning: number; _nightly: number; _nights: number }
         Returns: Database["public"]["CompositeTypes"]["pricing_breakdown"]
+        SetofOptions: {
+          from: "*"
+          to: "pricing_breakdown"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       fn_host_update_booking_status: {
         Args: {
