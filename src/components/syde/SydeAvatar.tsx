@@ -23,38 +23,44 @@ export const SydeAvatar = ({ state, size = 'large', className }: SydeAvatarProps
     idle: 'shadow-[0_0_20px_rgba(14,124,134,0.2)]'
   };
 
-  const animations = {
-    speaking: {
-      scale: [1, 1.05, 1],
-      transition: {
-        duration: 0.8,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    },
-    listening: {
-      scale: [1, 1.02, 1],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    },
-    thinking: {
-      rotate: [0, 5, -5, 0],
-      transition: {
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    },
-    idle: {
-      scale: [1, 1.01, 1],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
+  const getAnimation = () => {
+    switch (state) {
+      case 'speaking':
+        return {
+          scale: [1, 1.05, 1],
+          transition: {
+            duration: 0.8,
+            repeat: Infinity,
+            ease: "easeInOut" as const
+          }
+        };
+      case 'listening':
+        return {
+          scale: [1, 1.02, 1],
+          transition: {
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut" as const
+          }
+        };
+      case 'thinking':
+        return {
+          rotate: [0, 5, -5, 0],
+          transition: {
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut" as const
+          }
+        };
+      case 'idle':
+        return {
+          scale: [1, 1.01, 1],
+          transition: {
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut" as const
+          }
+        };
     }
   };
 
@@ -66,7 +72,7 @@ export const SydeAvatar = ({ state, size = 'large', className }: SydeAvatarProps
         glowColors[state],
         className
       )}
-      animate={animations[state]}
+      animate={getAnimation()}
     >
       {/* Avatar character - using initials for now */}
       <div className="text-white font-bold" style={{ fontSize: size === 'large' ? '3rem' : '1.5rem' }}>
