@@ -422,7 +422,7 @@ export default function ListingDetail() {
                             ))}
                           </div>
                           <span className="font-semibold text-foreground">
-                            {review.profiles.name || "Guest"}
+                            {review.profiles?.name || "Guest"}
                           </span>
                           <span className="text-sm text-muted">
                             {format(parseISO(review.created_at), "dd MMM yyyy")}
